@@ -1,0 +1,8 @@
+clipboardhandler downa dostaje cannot serialize
+
+
+
+
+
+
+wywalic html z dista do renderera

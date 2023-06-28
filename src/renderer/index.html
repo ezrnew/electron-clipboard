@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <title>Hello World!</title>
+
+    <!-- <script src="./renderer/renderer.js"></script> -->
+    <!-- <script src='set-exports.js'></script> -->
+    <script>var exports = {};</script>
+    <script > require('../../dist/renderer/renderer.js')</script>
+    <!-- <script src="../src/renderer/renderer.js"></script> -->
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    Node.js: <span id="node-version"></span>,
+    <br/>
+    Chromium: <span id="chrome-version"></span>,
+    <br/>
+    Electron: <span id="electron-version"></span>.
+    <br/>
+
+    Current value: <strong id="counter">0</strong>
+    <br/>
+
+    <input/>
+
+  </br>
+
+    <button id="button1"> always on top</button>
+  </body>
+</html>
