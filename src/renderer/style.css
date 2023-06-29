@@ -1,0 +1,39 @@
+#main-container{
+background-color: aquamarine;
+overflow: hidden;
+
+
+
+/* huj nie dziala */
+scrollbar-width: none; 
+-ms-overflow-style: none; 
+}
+
+#list-container::-webkit-scrollbar{
+    width: 0
+}
+
+.list-container{
+/* background-color: red; */
+display: flex;
+flex-direction: column-reverse;
+border: solid;
+text-overflow: clip;
+list-style-type: none;
+overflow-y:scroll;
+padding: 0px;
+
+
+}
+
+.list-container li{
+
+    background-color: #f0f0f0;
+    padding: 10px;
+    max-height: 3em; /* Adjust the desired maximum height */
+    overflow: hidden;
+}
+.list-container li:nth-child(2n){
+
+    background-color: #dcdcdc;
+}

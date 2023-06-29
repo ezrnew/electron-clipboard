@@ -5,14 +5,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { ipcRenderer } = require('electron');
 let clipboardData = [];
 window.addEventListener('DOMContentLoaded', () => {
-    const replaceText = (selector, text) => {
-        const element = document.getElementById(selector);
-        if (element)
-            element.innerText = text;
-    };
-    for (const dependency of ['chrome', 'node', 'electron']) {
-        replaceText(`${dependency}-version`, process.versions[dependency]);
-    }
+    // const replaceText = (selector:any, text:any) => {
+    //     const element = document.getElementById(selector)
+    //     if (element) element.innerText = text
+    // }
+    // for (const dependency of ['chrome', 'node', 'electron']) {
+    //     replaceText(`${dependency}-version`, process.versions[dependency])
+    // }
     /////////////////
     // ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
     //   console.log(ipcMainActions.initialClipboard,value)

@@ -1,8 +1,5 @@
-clipboardhandler downa dostaje cannot serialize
+https://stackoverflow.com/questions/11128700/create-a-ul-and-fill-it-based-on-a-passed-array
 
 
 
 
-
-
-wywalic html z dista do renderera

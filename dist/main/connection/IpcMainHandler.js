@@ -13,8 +13,6 @@ class IpcMainHandler {
     sendInitialClipboardData() {
         (0, clipboardHandler_1.getInitialClipboard)()
             .then(dataArray => {
-            console.log('dataArray w then');
-            console.log(dataArray);
             this.window.webContents.send(ipcActions_1.ipcMainActions.initialClipboard, dataArray);
         });
     }

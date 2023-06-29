@@ -1,6 +1,7 @@
 import {ipcRenderer} from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import {reducerActions, store} from "../store/store"
+import { appendClipboardData, displayInitialClipboardData } from "../renderer";
 
 export class IpcRendererHandler {
 
@@ -28,13 +29,14 @@ export class IpcRendererHandler {
   
 
            store.dispatch({type:reducerActions.SET_INITIAL_CLIPBOARD,payload:value})
-            
+           displayInitialClipboardData(value) 
+
           })
           ipcRenderer.on(ipcMainActions.clipboard, (_event, value) => {
 
   
             store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
-             
+            appendClipboardData(value)
            })
  
 

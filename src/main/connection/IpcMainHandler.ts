@@ -18,8 +18,7 @@ export class IpcMainHandler {
 
        getInitialClipboard()
         .then(dataArray => {
-          console.log('dataArray w then' )
-          console.log(dataArray)
+
           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
 
         })
