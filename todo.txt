@@ -1,5 +1,8 @@
-https://stackoverflow.com/questions/11128700/create-a-ul-and-fill-it-based-on-a-passed-array
+odczytywanie initial clipboarda naprawic albo splity poprawic
 
 
 
 
+
+ogarnac podwojne kopiowanie zdjec i z edge zajebanego
+cos sie wykurwia jak pliku nie ma

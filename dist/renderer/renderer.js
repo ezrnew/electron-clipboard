@@ -1,7 +1,6 @@
 "use strict";
 // import { initClipboardHandler } from "../main/utils/clipboardHandler"
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.appendClipboardData = exports.displayInitialClipboardData = void 0;
 const IpcRendererHandler_1 = require("./connection/IpcRendererHandler");
 console.log('renderer');
 document.addEventListener('DOMContentLoaded', function () {
@@ -16,26 +15,3 @@ document.addEventListener('DOMContentLoaded', function () {
         alwaysOnTop = !alwaysOnTop;
     }
 });
-function displayInitialClipboardData(data) {
-    const clipboardListContainer = document.getElementById('clipboard-list');
-    let listItems = data.map((item) => {
-        return `<li>${escapeHTML(item)}</li>`;
-        // Alternatively, you can use concatenation:
-        // return '<li>' + fruit + '</li>';
-    });
-    clipboardListContainer.innerHTML = listItems.join('');
-}
-exports.displayInitialClipboardData = displayInitialClipboardData;
-function appendClipboardData(data) {
-    const clipboardListContainer = document.getElementById('clipboard-list');
-    let newEntry = document.createElement('li');
-    newEntry.textContent = data;
-    newEntry.addEventListener('click', () => { console.log('text:', data); });
-    clipboardListContainer.appendChild(newEntry);
-}
-exports.appendClipboardData = appendClipboardData;
-function escapeHTML(text) {
-    const escapedText = document.createElement('div');
-    escapedText.textContent = text;
-    return escapedText.innerHTML;
-}

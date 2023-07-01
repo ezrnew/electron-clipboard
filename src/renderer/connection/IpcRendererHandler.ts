@@ -1,7 +1,7 @@
 import {ipcRenderer} from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import {reducerActions, store} from "../store/store"
-import { appendClipboardData, displayInitialClipboardData } from "../renderer";
+import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
 
 export class IpcRendererHandler {
 
