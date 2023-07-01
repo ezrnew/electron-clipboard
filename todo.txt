@@ -1,8 +1,8 @@
 odczytywanie initial clipboarda naprawic albo splity poprawic
+^ chyba dziala ale potestowac trzeba + pomyslec czy nie mozna zmergować 2 funkcji do usuwania i dodawania wpisu
 
 
-
-
-
-ogarnac podwojne kopiowanie zdjec i z edge zajebanego
+ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
 cos sie wykurwia jak pliku nie ma
+
+pomyslec czy nie wysylac calej listy zamiast 1 entry przy zmianie
