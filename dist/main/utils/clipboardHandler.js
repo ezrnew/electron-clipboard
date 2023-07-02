@@ -10,6 +10,7 @@ const FileType = require('file-type');
 // import {fileTypeFromFile} from 'file-type';
 //TODO czy bedzie dzialac path po buildzie?
 const rootDir = process.cwd();
+let lastEntry = '';
 const clipboardHandler = (ipc) => {
     clipboardListener.startListening();
     clipboardListener.on('change', async () => {
@@ -24,7 +25,7 @@ const clipboardHandler = (ipc) => {
         const chuj = clipboard.readImage('clipboard').toDataURL();
         // clipboard.writeImage(nativeImage.createFromBuffer( clipboard.readImage('clipboard').toJPEG(100)))
         (0, exports.deleteOldEntryIfExists)(clipboardContent)
-            .then(() => { console.log('przed save to file'); saveToFile(dataDirectory, getContent(format)); })
+            .then((res) => { console.log('res:', res); saveToFile(dataDirectory, getContent(format)); })
             .catch(err => console.log(err));
     });
 };
@@ -61,8 +62,23 @@ const getDataDirectory = () => {
     });
     return filePath;
 };
+// const saveToFile = (directory: string, data: string) => {
+//   fs.appendFile(directory, data+CLIPBOARD_SPLIT, (err) => {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
+//     console.log('Data has been written to the file.');
+//   });
+// }
 const saveToFile = (directory, data) => {
-    fs.appendFile(directory, constants_1.CLIPBOARD_SPLIT + data + constants_1.CLIPBOARD_SPLIT2, (err) => {
+    console.log('zapisywanko:');
+    console.log(lastEntry);
+    console.log(data);
+    if (data === lastEntry)
+        return;
+    lastEntry = data;
+    fs.appendFile(directory, data + constants_1.CLIPBOARD_SPLIT, (err) => {
         if (err) {
             console.error(err);
             return;
@@ -86,30 +102,37 @@ const getInitialClipboard = () => {
 exports.getInitialClipboard = getInitialClipboard;
 const deleteOldEntryIfExists = (entry) => {
     return new Promise((resolve, reject) => {
+        if (entry === lastEntry) {
+            resolve('stop');
+            return;
+        }
         console.log('entryzajebane');
-        console.log(entry);
+        console.log("-", entry, entry.length, '-');
         fs.readFile(constants_1.CLIPBOARD_DATA_PATH, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
                 reject(err);
                 // return;
             }
-            if (!data.includes(entry)) {
+            const kurwisko = `\n${entry}${constants_1.CLIPBOARD_SPLIT}`;
+            console.log('kurwisko');
+            console.log(kurwisko);
+            if (!data.includes(kurwisko)) {
                 console.log('NIEMATAKIEGOWPISU');
-                console.log(entry);
+                // console.log(entry)
                 resolve('noentry');
                 return;
             }
-            const entriii = `${constants_1.CLIPBOARD_SPLIT}${entry}${constants_1.CLIPBOARD_SPLIT2}`;
+            const entriii = `${entry}${constants_1.CLIPBOARD_SPLIT}`;
             console.log(entriii);
-            const modifiedFileData = data.replace(entriii, "");
+            const modifiedFileData = data.replace(kurwisko, "\n");
             fs.writeFile(constants_1.CLIPBOARD_DATA_PATH, modifiedFileData, 'utf8', (err) => {
                 if (err) {
                     console.error('Error writing file:', err);
                     reject(err);
                     // return;
                 }
-                console.log('przedresolve');
+                // console.log('przedresolve')
                 resolve('ok');
             });
         });

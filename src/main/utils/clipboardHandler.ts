@@ -11,7 +11,7 @@ const FileType = require('file-type');
 const rootDir = process.cwd()
 
 
-
+let  lastEntry = '' 
 
 
 
@@ -51,7 +51,7 @@ export const clipboardHandler = (ipc: IpcMainHandler) => {
     // clipboard.writeImage(nativeImage.createFromBuffer( clipboard.readImage('clipboard').toJPEG(100)))
 
     deleteOldEntryIfExists(clipboardContent)
-      .then(() => { console.log('przed save to file'); saveToFile(dataDirectory, getContent(format)) })
+      .then((res) => {if(res==='cancel')return;  saveToFile(dataDirectory, getContent(format)) })
       .catch(err => console.log(err))
 
 
@@ -107,10 +107,31 @@ const getDataDirectory = () => {
   return filePath
 }
 
+// const saveToFile = (directory: string, data: string) => {
+
+
+//   fs.appendFile(directory, data+CLIPBOARD_SPLIT, (err) => {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
+
+//     console.log('Data has been written to the file.');
+//   });
+
+
+// }
+
+
 const saveToFile = (directory: string, data: string) => {
+console.log('zapisywanko:')
+console.log(lastEntry)
+console.log(data)
+  if(data === lastEntry) return;
+  lastEntry=data
 
 
-  fs.appendFile(directory,  CLIPBOARD_SPLIT+data+CLIPBOARD_SPLIT2, (err) => {
+  fs.appendFile(directory, data+CLIPBOARD_SPLIT, (err) => {
     if (err) {
       console.error(err);
       return;
@@ -121,6 +142,7 @@ const saveToFile = (directory: string, data: string) => {
 
 
 }
+
 
 //////////////////
 
@@ -148,12 +170,18 @@ export const getInitialClipboard = () => {
 
 export const deleteOldEntryIfExists = (entry: string) => {
 
-
+ 
 
   return new Promise((resolve, reject) => {
 
+
+    if(entry === lastEntry) {
+      resolve('cancel')
+      return;
+    }
+
     console.log('entryzajebane')
-    console.log(entry)
+    console.log("-",entry,entry.length,'-')
 
 
     fs.readFile(CLIPBOARD_DATA_PATH, 'utf8', (err, data: string) => {
@@ -163,20 +191,25 @@ export const deleteOldEntryIfExists = (entry: string) => {
         // return;
       }
 
-      if (!data.includes(entry)) {
+      const kurwisko = `\n${entry}${CLIPBOARD_SPLIT}`
+      
+      console.log('kurwisko')
+      console.log(kurwisko)
+
+      if (!data.includes(kurwisko)) {
         console.log('NIEMATAKIEGOWPISU')
-        console.log(entry)
+        // console.log(entry)
         resolve('noentry')
         return;
       }
 
 
-      const entriii = `${CLIPBOARD_SPLIT}${entry}${CLIPBOARD_SPLIT2}`
+      const entriii = `${entry}${CLIPBOARD_SPLIT}`
 
       console.log(entriii)
 
 
-      const modifiedFileData = data.replace(entriii, "")
+      const modifiedFileData = data.replace(kurwisko, "\n")
 
       fs.writeFile(CLIPBOARD_DATA_PATH, modifiedFileData, 'utf8', (err) => {
         if (err) {
@@ -186,7 +219,7 @@ export const deleteOldEntryIfExists = (entry: string) => {
 
 
         }
-        console.log('przedresolve')
+        // console.log('przedresolve')
         resolve('ok')
       });
 
