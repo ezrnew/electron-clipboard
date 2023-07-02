@@ -1,3 +1,12 @@
+jutro ogarnac menu electronowe
+
+
+na hover tekstu zrobic okienko elektronowe z full tekstem
+
+eletron paint
+
+
+
 odczytywanie initial clipboarda naprawic albo splity poprawic
 ^ chyba dziala ale potestowac trzeba + pomyslec czy nie mozna zmergować 2 funkcji do usuwania i dodawania wpisu
 
@@ -6,6 +15,8 @@ ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
 cos sie wykurwia jak pliku nie ma
 
 zwalidowac czy poprawny data url przed wyslaniem do renderera
+
+zhandlować zeby nie wyswietlalo image jak sie skopiuje data:image/png;base64,
 
 
 //////

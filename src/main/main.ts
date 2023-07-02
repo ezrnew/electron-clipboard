@@ -5,7 +5,7 @@
 
 
 // const { app, BrowserWindow,ipcMain  } = require('electron')
-import { app, BrowserWindow, globalShortcut, ipcMain, screen } from 'electron'
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu, screen } from 'electron'
 import * as Positioner from 'electron-positioner'
 
 import * as path from 'path'
@@ -13,6 +13,7 @@ import { windowStickToBorderHandler } from './utils/windowStickToScreenBorder';
 import { clipboardHandler } from './utils/clipboardHandler';
 import { IpcMainHandler } from './connection/IpcMainHandler';
 import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
+import { CLIPBOARD_WINDOW_MENU } from '../common/constants';
 
 let win: BrowserWindow;
 
@@ -20,7 +21,7 @@ const createWindow = () => {
     win = new BrowserWindow({
         width: 800,
         height: 600,
-        autoHideMenuBar: true, //alt pokazuje dalej bara
+        // autoHideMenuBar: true, //alt pokazuje dalej bara
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -28,6 +29,9 @@ const createWindow = () => {
             devTools: true,
         }
     })
+
+
+    Menu.setApplicationMenu(CLIPBOARD_WINDOW_MENU)
 
     console.log(path.join(app.getAppPath(), 'src','renderer', 'index.html'))
     win.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'))

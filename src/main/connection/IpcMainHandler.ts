@@ -74,7 +74,7 @@ export class IpcMainHandler {
             
             console.log('received paint request with data: ',arg)
 
-            paintWindowHandler()
+            // paintWindowHandler()
 
 
         });
