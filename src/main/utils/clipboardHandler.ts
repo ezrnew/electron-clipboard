@@ -124,9 +124,9 @@ const getDataDirectory = () => {
 
 
 const saveToFile = (directory: string, data: string) => {
-console.log('zapisywanko:')
-console.log(lastEntry)
-console.log(data)
+// console.log('zapisywanko:')
+// console.log(lastEntry)
+// console.log(data)
   if(data === lastEntry) return;
   lastEntry=data
 
@@ -180,8 +180,8 @@ export const deleteOldEntryIfExists = (entry: string) => {
       return;
     }
 
-    console.log('entryzajebane')
-    console.log("-",entry,entry.length,'-')
+    // console.log('entryzajebane')
+    // console.log("-",entry,entry.length,'-')
 
 
     fs.readFile(CLIPBOARD_DATA_PATH, 'utf8', (err, data: string) => {
@@ -193,8 +193,8 @@ export const deleteOldEntryIfExists = (entry: string) => {
 
       const kurwisko = `\n${entry}${CLIPBOARD_SPLIT}`
       
-      console.log('kurwisko')
-      console.log(kurwisko)
+      // console.log('kurwisko')
+      // console.log(kurwisko)
 
       if (!data.includes(kurwisko)) {
         console.log('NIEMATAKIEGOWPISU')
@@ -206,7 +206,7 @@ export const deleteOldEntryIfExists = (entry: string) => {
 
       const entriii = `${entry}${CLIPBOARD_SPLIT}`
 
-      console.log(entriii)
+      // console.log(entriii)
 
 
       const modifiedFileData = data.replace(kurwisko, "\n")

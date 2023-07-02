@@ -5,13 +5,14 @@
 
 
 // const { app, BrowserWindow,ipcMain  } = require('electron')
-import { app, BrowserWindow, ipcMain, screen } from 'electron'
+import { app, BrowserWindow, globalShortcut, ipcMain, screen } from 'electron'
 import * as Positioner from 'electron-positioner'
 
 import * as path from 'path'
 import { windowStickToBorderHandler } from './utils/windowStickToScreenBorder';
 import { clipboardHandler } from './utils/clipboardHandler';
 import { IpcMainHandler } from './connection/IpcMainHandler';
+import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
 
 let win: BrowserWindow;
 
@@ -40,6 +41,9 @@ app.whenReady().then(() => {
     createWindow()
 
 
+
+
+//?
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
@@ -58,6 +62,7 @@ function initApp() {
     const ipc = new IpcMainHandler(win)
 
     clipboardHandler(ipc)
+    keyboardShortcutsHandler(ipc)
 
 
 

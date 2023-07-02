@@ -5,4 +5,9 @@ odczytywanie initial clipboarda naprawic albo splity poprawic
 ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
 cos sie wykurwia jak pliku nie ma
 
-pomyslec czy nie wysylac calej listy zamiast 1 entry przy zmianie
+zwalidowac czy poprawny data url przed wyslaniem do renderera
+
+
+//////
+moze zmienic ten img.src = data: skoro "data" jest tylko do zdjęcia a nie do kopiowania
+swuj paint

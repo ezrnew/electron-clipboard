@@ -14,9 +14,30 @@ export class IpcMainHandler {
         this.initIpcListeners()
     }
 
-     sendInitialClipboardData () {
+    //  sendInitialClipboardData () {
 
-       getInitialClipboard()
+    //    getInitialClipboard()
+    //     .then(dataArray => {
+
+    //       this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
+
+    //     })
+
+
+    // }
+
+
+
+
+    sendClipboardEvery60 () {
+        //todo
+        // [Error: EBUSY: resource busy or locked, open 'C:\Users\ja\OneDrive\Pulpit\reactjs\electron-clipboard\data\text.txt'] {
+        //     errno: -4082,
+        //     code: 'EBUSY',
+        //     syscall: 'open',
+        //     path: 'C:\\Users\\ja\\OneDrive\\Pulpit\\reactjs\\electron-clipboard\\data\\text.txt'
+
+        getInitialClipboard()
         .then(dataArray => {
 
           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
@@ -24,12 +45,40 @@ export class IpcMainHandler {
         })
 
 
-    }
+
+        // setInterval( 
+        //     ()=>{
+        //         getInitialClipboard()
+        //         .then(dataArray => {
+        
+        //           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
+        
+        //         })
+        
+
+        //     }
+            
+            
+        //     ,60000)
+
+
+ 
+     }
+
+
 
     sendClipboardData(data: string) {
 
    
         this.window.webContents.send(ipcMainActions.clipboard, data);
+
+    }
+
+
+    sendShortcutData(data: any) {
+
+   
+        this.window.webContents.send(ipcMainActions.shortcutData, data);
 
     }
 
@@ -45,7 +94,7 @@ export class IpcMainHandler {
         
         ipcMain.on(ipcRendererActions.windowReady, (event) => {
 
-            this.sendInitialClipboardData()
+            this.sendClipboardEvery60()
 
 
         });

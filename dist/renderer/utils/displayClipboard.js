@@ -3,29 +3,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.appendClipboardData = exports.displayInitialClipboardData = void 0;
 function displayInitialClipboardData(data) {
     const clipboardList = document.getElementById('clipboard-list');
-    data.forEach(element => {
+    clipboardList.innerHTML = '';
+    data.forEach(entry => {
         let item = document.createElement('li');
-        item.appendChild(document.createTextNode(element));
-        item.addEventListener('click', () => { onEntryClick(element); });
+        item.appendChild(getLiChild(entry));
+        item.addEventListener('click', () => { onEntryClick(entry); });
         clipboardList.appendChild(item);
     });
 }
 exports.displayInitialClipboardData = displayInitialClipboardData;
+let lastEntry = '';
 function appendClipboardData(data) {
+    if (lastEntry === data) {
+        console.log('taki sam');
+        return;
+    }
+    lastEntry = data;
     const clipboardList = document.getElementById('clipboard-list');
     let item = document.createElement('li');
-    item.appendChild(document.createTextNode(data));
+    // item.appendChild(document.createTextNode(data))
+    item.appendChild(getLiChild(data));
     item.addEventListener('click', () => { onEntryClick(data); });
     clipboardList.appendChild(item);
 }
 exports.appendClipboardData = appendClipboardData;
-function onEntryClick(data) {
-    if (!data.startsWith('data:image')) {
-        navigator.clipboard.writeText(data);
+function getLiChild(data) {
+    if (isText(data)) {
+        return document.createTextNode(data);
     }
     else {
-        writeClipboardImage(data);
+        //todo dodac validacje jak się zaczyna z data:image/png;base64, czy mozna zdecodować poprawnie
+        let img = document.createElement("img");
+        img.src = data;
+        // img.alt = data;
+        img.className = 'imgStyle';
+        // img.max = ;
+        return img;
     }
+}
+function onEntryClick(data) {
+    isText(data) ? navigator.clipboard.writeText(data) : writeClipboardImage(data);
+}
+function isText(data) {
+    return !data.startsWith('data:image');
 }
 function writeClipboardImage(base64Image) {
     const base64 = base64Image.replace('data:image/png;base64,', '');
