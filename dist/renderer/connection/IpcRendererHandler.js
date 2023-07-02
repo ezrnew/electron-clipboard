@@ -18,6 +18,7 @@ class IpcRendererHandler {
     }
     initIpcListeners() {
         electron_1.ipcRenderer.on(ipcActions_1.ipcMainActions.initialClipboard, (_event, value) => {
+            console.log('received initial clipboardxd ');
             store_1.store.dispatch({ type: store_1.reducerActions.SET_INITIAL_CLIPBOARD, payload: value });
             (0, displayClipboard_1.displayInitialClipboardData)(value);
         });

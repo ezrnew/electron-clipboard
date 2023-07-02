@@ -33,7 +33,14 @@ padding: 0px;
     max-height: 3em; /* Adjust the desired maximum height */
     overflow: hidden;
 }
+
+
 .list-container li:nth-child(2n){
 
     background-color: #dcdcdc;
+}
+
+.imgStyle{
+/* //todo changable entry size*/
+    max-height: 6em;
 }

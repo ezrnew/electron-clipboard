@@ -10,11 +10,31 @@ class IpcMainHandler {
         this.window = window;
         this.initIpcListeners();
     }
-    sendInitialClipboardData() {
+    //  sendInitialClipboardData () {
+    //    getInitialClipboard()
+    //     .then(dataArray => {
+    //       this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
+    //     })
+    // }
+    sendClipboardEvery60() {
+        //todo
+        // [Error: EBUSY: resource busy or locked, open 'C:\Users\ja\OneDrive\Pulpit\reactjs\electron-clipboard\data\text.txt'] {
+        //     errno: -4082,
+        //     code: 'EBUSY',
+        //     syscall: 'open',
+        //     path: 'C:\\Users\\ja\\OneDrive\\Pulpit\\reactjs\\electron-clipboard\\data\\text.txt'
         (0, clipboardHandler_1.getInitialClipboard)()
             .then(dataArray => {
             this.window.webContents.send(ipcActions_1.ipcMainActions.initialClipboard, dataArray);
         });
+        // setInterval( 
+        //     ()=>{
+        //         getInitialClipboard()
+        //         .then(dataArray => {
+        //           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
+        //         })
+        //     }
+        //     ,60000)
     }
     sendClipboardData(data) {
         this.window.webContents.send(ipcActions_1.ipcMainActions.clipboard, data);
@@ -24,7 +44,7 @@ class IpcMainHandler {
             this.window.setAlwaysOnTop(arg);
         });
         electron_1.ipcMain.on(ipcActions_1.ipcRendererActions.windowReady, (event) => {
-            this.sendInitialClipboardData();
+            this.sendClipboardEvery60();
         });
     }
 }

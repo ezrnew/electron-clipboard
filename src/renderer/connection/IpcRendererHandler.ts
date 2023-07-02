@@ -26,6 +26,8 @@ export class IpcRendererHandler {
 
     private initIpcListeners(){
         ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
+
+        console.log('received initial clipboardxd ')
   
 
            store.dispatch({type:reducerActions.SET_INITIAL_CLIPBOARD,payload:value})

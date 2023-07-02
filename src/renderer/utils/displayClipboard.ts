@@ -2,11 +2,13 @@ export function displayInitialClipboardData(data: string[]) {
 
     const clipboardList = document.getElementById('clipboard-list')
 
-    data.forEach(element => {
+    clipboardList.innerHTML = ''
+
+    data.forEach(entry => {
 
         let item = document.createElement('li')
-        item.appendChild(document.createTextNode(element))
-        item.addEventListener('click', () => { onEntryClick(element) })
+        item.appendChild(getLiChild(entry))
+        item.addEventListener('click', () => { onEntryClick(entry) })
 
         clipboardList.appendChild(item)
 
@@ -14,29 +16,63 @@ export function displayInitialClipboardData(data: string[]) {
 
 }
 
+let lastEntry = ''
+
 export function appendClipboardData(data: string) {
+
+    if (lastEntry === data) { console.log('taki sam'); return; }
+    lastEntry = data
 
     const clipboardList = document.getElementById('clipboard-list')
 
     let item = document.createElement('li')
-    item.appendChild(document.createTextNode(data))
+
+    // item.appendChild(document.createTextNode(data))
+    item.appendChild(getLiChild(data))
+
     item.addEventListener('click', () => { onEntryClick(data) })
 
     clipboardList.appendChild(item)
 
 }
 
+function getLiChild(data: string) {
+
+    if(isText(data)){
+        return document.createTextNode(data)
+
+    }
+
+    else {
+        //todo dodac validacje jak się zaczyna z data:image/png;base64, czy mozna zdecodować poprawnie
+        let img = document.createElement("img");
+
+
+        img.src = data
+// img.alt = data;
+img.className='imgStyle'
+// img.max = ;
+
+return img
+
+    }
+        
+    
+
+}
+
 
 function onEntryClick(data: string) {
 
-    if (!data.startsWith('data:image')) {
 
-        navigator.clipboard.writeText(data)
+    isText(data) ? navigator.clipboard.writeText(data) : writeClipboardImage(data)
 
-    } else {
-        writeClipboardImage(data)
+}
 
-    }
+function isText(data: string) {
+
+    return !data.startsWith('data:image')
+
 
 }
 
