@@ -1,6 +1,7 @@
 export const ipcRendererActions = {
     windowReady : "window-ready",
-    windowOnTop : "window-on-top"
+    windowOnTop : "window-on-top",
+    paintRequest : "paint-request",
 } as const
 
 

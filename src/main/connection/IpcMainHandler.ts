@@ -1,6 +1,7 @@
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions"
 import { BrowserWindow, IpcMain, ipcMain } from "electron"
 import { getInitialClipboard } from "../utils/clipboardHandler";
+import { paintWindowHandler } from "../utils/paintWindowHandler";
 // import { getInitialClipboard } from "../utils/clipboardHandler";
 
 export class IpcMainHandler {
@@ -14,28 +15,11 @@ export class IpcMainHandler {
         this.initIpcListeners()
     }
 
-    //  sendInitialClipboardData () {
-
-    //    getInitialClipboard()
-    //     .then(dataArray => {
-
-    //       this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
-
-    //     })
-
-
-    // }
-
 
 
 
     sendClipboardEvery60 () {
         //todo
-        // [Error: EBUSY: resource busy or locked, open 'C:\Users\ja\OneDrive\Pulpit\reactjs\electron-clipboard\data\text.txt'] {
-        //     errno: -4082,
-        //     code: 'EBUSY',
-        //     syscall: 'open',
-        //     path: 'C:\\Users\\ja\\OneDrive\\Pulpit\\reactjs\\electron-clipboard\\data\\text.txt'
 
         getInitialClipboard()
         .then(dataArray => {
@@ -43,24 +27,6 @@ export class IpcMainHandler {
           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
 
         })
-
-
-
-        // setInterval( 
-        //     ()=>{
-        //         getInitialClipboard()
-        //         .then(dataArray => {
-        
-        //           this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
-        
-        //         })
-        
-
-        //     }
-            
-            
-        //     ,60000)
-
 
  
      }
@@ -85,6 +51,15 @@ export class IpcMainHandler {
 
     private initIpcListeners() {
 
+
+        ipcMain.on(ipcRendererActions.windowReady, (event) => {
+
+            this.sendClipboardEvery60()
+
+
+        });
+
+
         ipcMain.on(ipcRendererActions.windowOnTop, (event, arg: boolean) => {
 
             this.window.setAlwaysOnTop(arg)
@@ -92,9 +67,14 @@ export class IpcMainHandler {
 
         });
         
-        ipcMain.on(ipcRendererActions.windowReady, (event) => {
 
-            this.sendClipboardEvery60()
+        ipcMain.on(ipcRendererActions.paintRequest, (event,arg) => {
+            //todo need to add verification on renderer and here if its valid image
+
+            
+            console.log('received paint request with data: ',arg)
+
+            paintWindowHandler()
 
 
         });
