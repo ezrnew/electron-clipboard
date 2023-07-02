@@ -75,6 +75,14 @@ export class IpcMainHandler {
     }
 
 
+    sendShortcutData(data: any) {
+
+   
+        this.window.webContents.send(ipcMainActions.shortcutData, data);
+
+    }
+
+
     private initIpcListeners() {
 
         ipcMain.on(ipcRendererActions.windowOnTop, (event, arg: boolean) => {

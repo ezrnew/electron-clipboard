@@ -7,4 +7,5 @@ export const ipcRendererActions = {
 export const ipcMainActions = {
     initialClipboard : "initial-clipboard-data",
     clipboard : "clipboard-data",
+    shortcutData:  "key-shortcut-data",
 } as const

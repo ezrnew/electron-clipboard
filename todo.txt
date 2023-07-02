@@ -5,8 +5,9 @@ odczytywanie initial clipboarda naprawic albo splity poprawic
 ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
 cos sie wykurwia jak pliku nie ma
 
-zwalidowac czy poprawny data url
+zwalidowac czy poprawny data url przed wyslaniem do renderera
 
 
 //////
 moze zmienic ten img.src = data: skoro "data" jest tylko do zdjęcia a nie do kopiowania
+swuj paint

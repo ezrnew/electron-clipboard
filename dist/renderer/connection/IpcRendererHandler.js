@@ -26,6 +26,16 @@ class IpcRendererHandler {
             store_1.store.dispatch({ type: store_1.reducerActions.ADD_CLIPBOARD_ENTRY, payload: value });
             (0, displayClipboard_1.appendClipboardData)(value);
         });
+        electron_1.ipcRenderer.on(ipcActions_1.ipcMainActions.clipboard, (_event, value) => {
+            store_1.store.dispatch({ type: store_1.reducerActions.ADD_CLIPBOARD_ENTRY, payload: value });
+            (0, displayClipboard_1.appendClipboardData)(value);
+        });
+        electron_1.ipcRenderer.on(ipcActions_1.ipcMainActions.shortcutData, (_event, data) => {
+            console.log("received shortcut:");
+            console.log(data);
+            // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
+            // appendClipboardData(value)
+        });
     }
 }
 exports.IpcRendererHandler = IpcRendererHandler;

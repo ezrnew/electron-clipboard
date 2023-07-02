@@ -40,6 +40,22 @@ export class IpcRendererHandler {
             store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
             appendClipboardData(value)
            })
+
+           ipcRenderer.on(ipcMainActions.clipboard, (_event, value) => {
+
+  
+            store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
+            appendClipboardData(value)
+           })
+
+           ipcRenderer.on(ipcMainActions.shortcutData, (_event, data) => {
+
+            console.log("received shortcut:")
+            console.log(data)
+            // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
+            // appendClipboardData(value)
+           })
+ 
  
 
 

@@ -8,6 +8,7 @@ const electron_1 = require("electron");
 const path = require("path");
 const clipboardHandler_1 = require("./utils/clipboardHandler");
 const IpcMainHandler_1 = require("./connection/IpcMainHandler");
+const keyboardShortcutsHandler_1 = require("./utils/keyboardShortcutsHandler");
 let win;
 const createWindow = () => {
     win = new electron_1.BrowserWindow({
@@ -27,6 +28,7 @@ const createWindow = () => {
 };
 electron_1.app.whenReady().then(() => {
     createWindow();
+    //?
     electron_1.app.on('activate', () => {
         if (electron_1.BrowserWindow.getAllWindows().length === 0)
             createWindow();
@@ -40,4 +42,5 @@ electron_1.app.on('window-all-closed', () => {
 function initApp() {
     const ipc = new IpcMainHandler_1.IpcMainHandler(win);
     (0, clipboardHandler_1.clipboardHandler)(ipc);
+    (0, keyboardShortcutsHandler_1.keyboardShortcutsHandler)(ipc);
 }

@@ -8,4 +8,5 @@ exports.ipcRendererActions = {
 exports.ipcMainActions = {
     initialClipboard: "initial-clipboard-data",
     clipboard: "clipboard-data",
+    shortcutData: "key-shortcut-data",
 };

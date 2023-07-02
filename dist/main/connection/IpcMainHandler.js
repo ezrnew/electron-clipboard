@@ -39,6 +39,9 @@ class IpcMainHandler {
     sendClipboardData(data) {
         this.window.webContents.send(ipcActions_1.ipcMainActions.clipboard, data);
     }
+    sendShortcutData(data) {
+        this.window.webContents.send(ipcActions_1.ipcMainActions.shortcutData, data);
+    }
     initIpcListeners() {
         electron_1.ipcMain.on(ipcActions_1.ipcRendererActions.windowOnTop, (event, arg) => {
             this.window.setAlwaysOnTop(arg);
