@@ -1,16 +1,20 @@
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions"
 import { BrowserWindow, IpcMain, ipcMain } from "electron"
 import { getInitialClipboard } from "../utils/clipboardHandler";
-import { paintWindowHandler } from "../utils/paintWindowHandler";
+import { paintWindow } from "../features/paintWindow/PaintWindow";
 // import { getInitialClipboard } from "../utils/clipboardHandler";
 
 export class IpcMainHandler {
 
     private window: BrowserWindow
+    private paintwindow: BrowserWindow
 
 
-    constructor(window: BrowserWindow) {
+    constructor(window: BrowserWindow,paintWindow:BrowserWindow) {
+        console.log('consturctor:',window,":::",paintWindow)
+        
         this.window = window;
+        this.paintwindow = paintWindow;
 
         this.initIpcListeners()
     }
@@ -49,6 +53,19 @@ export class IpcMainHandler {
     }
 
 
+
+// PAINT 
+
+sendPaintResponse(image64: string) {
+
+   console.log('sending paing res to:',this.paintwindow)
+    this.paintwindow.webContents.send(ipcMainActions.paintResponse, image64);
+
+}
+
+
+
+
     private initIpcListeners() {
 
 
@@ -60,21 +77,15 @@ export class IpcMainHandler {
         });
 
 
-        ipcMain.on(ipcRendererActions.windowOnTop, (event, arg: boolean) => {
-
-            this.window.setAlwaysOnTop(arg)
-
-
-        });
-        
-
         ipcMain.on(ipcRendererActions.paintRequest, (event,arg) => {
             //todo need to add verification on renderer and here if its valid image
 
             
-            console.log('received paint request with data: ',arg)
+            console.log('received paint request with data: ',arg.substring(1,100))
 
-            // paintWindowHandler()
+            paintWindow.open(arg)
+
+            this.sendPaintResponse(paintWindow.getImage())
 
 
         });

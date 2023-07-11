@@ -13,9 +13,10 @@ import { windowStickToBorderHandler } from './utils/windowStickToScreenBorder';
 import { clipboardHandler } from './utils/clipboardHandler';
 import { IpcMainHandler } from './connection/IpcMainHandler';
 import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
-import { CLIPBOARD_WINDOW_MENU } from '../common/constants';
+import { CLIPBOARD_WINDOW_MENU } from './utils/menuBarHandler';
+import { paintWindow } from './features/paintWindow/PaintWindow';
 
-let win: BrowserWindow;
+export let win: BrowserWindow;
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -33,7 +34,7 @@ const createWindow = () => {
 
     Menu.setApplicationMenu(CLIPBOARD_WINDOW_MENU)
 
-    console.log(path.join(app.getAppPath(), 'src','renderer', 'index.html'))
+    // console.log(path.join(app.getAppPath(), 'src','renderer', 'index.html'))
     win.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'))
 
     win.webContents.openDevTools();
@@ -43,6 +44,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
 
     createWindow()
+    paintWindow.initialize()
 
 
 
@@ -63,7 +65,7 @@ app.on('window-all-closed', () => {
 
 function initApp() {
 
-    const ipc = new IpcMainHandler(win)
+    const ipc = new IpcMainHandler(win,paintWindow.getWindow())
 
     clipboardHandler(ipc)
     keyboardShortcutsHandler(ipc)
