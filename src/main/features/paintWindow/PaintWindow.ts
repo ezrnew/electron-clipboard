@@ -14,8 +14,10 @@ import * as path from 'path'
     
     // }
 
-    initialize(){
+    //todo window is created at app start but is hidden
+    open(image:string){
         console.log('initialize')
+        this._image = image
         this._window = new BrowserWindow({
             width: 800,
             height: 600,
@@ -27,19 +29,31 @@ import * as path from 'path'
                 devTools: true,
             }
         })
-    }
 
-    open(image:string){
-        this._image = image
-        //todo close window if alraeady open and ask for confirmation
-
-        console.log('oopen paint:')
-        // console.log(app.getAppPath())
-        // console.log(path.join(app.getAppPath(), 'src', 'renderer', 'utils', 'paintWindow', 'index.html'))
         this._window.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'features', 'paintWindow', 'index.html'))
     
+
         this._window.webContents.openDevTools();
+
+
+
     }
+
+    // open(image:string){
+        
+
+
+
+    //     this._image = image
+    //     //todo close window if alraeady open and ask for confirmation
+
+    //     console.log('oopen paint:')
+    //     // console.log(app.getAppPath())
+    //     // console.log(path.join(app.getAppPath(), 'src', 'renderer', 'utils', 'paintWindow', 'index.html'))
+    //     this._window.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'features', 'paintWindow', 'index.html'))
+    
+    //     this._window.webContents.openDevTools();
+    // }
 
 
     getWindow(){

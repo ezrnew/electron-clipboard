@@ -44,7 +44,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
 
     createWindow()
-    paintWindow.initialize()
+    // paintWindow.initialize()
 
 
 
@@ -65,7 +65,7 @@ app.on('window-all-closed', () => {
 
 function initApp() {
 
-    const ipc = new IpcMainHandler(win,paintWindow.getWindow())
+    const ipc = new IpcMainHandler(win)
 
     clipboardHandler(ipc)
     keyboardShortcutsHandler(ipc)

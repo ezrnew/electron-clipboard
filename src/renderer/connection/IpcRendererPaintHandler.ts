@@ -2,13 +2,17 @@ import { ipcRenderer } from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import { reducerActions, store } from "../store/store"
 import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
-import { setImage } from "../features/paintWindow/paintRenderer";
+import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
 
  class IpcRendererHandler {
 
     constructor() {
         // this.sendWindowReady()
         this.initIpcListeners()
+    }
+
+    sendWindowReady(){
+        ipcRenderer.send(ipcRendererActions.paintWindowReady)
     }
 
 
@@ -23,8 +27,8 @@ import { setImage } from "../features/paintWindow/paintRenderer";
         ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
 
             console.log("received paint response in new ipc handler:")
-            console.log(data.substring(1,60))
-            setImage(data)
+            // console.log()
+            setImageToCanvas(data)
             // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
             // appendClipboardData(value)
         })

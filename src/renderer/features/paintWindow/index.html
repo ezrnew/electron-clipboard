@@ -1,19 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src data:">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src data:">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>siema</h1>
+    <div id="toolbar">
 
-    <img id="main-image"/>
-    
-    <canvas> </canvas>
+        <div class="toolbar-colors-container">
+            <div class="toolbar-colors">
+
+                <div id="red" class="colorButton bg-red"></div>
+                <div id="orange" class="colorButton bg-orange"></div>
+                <div id="yellow" class="colorButton bg-yellow"></div>
+                <div id="yellowgreen" class="colorButton bg-yellowgreen"></div>
+                <div id="green" class="colorButton bg-green"></div>
+                <div id="teal" class="colorButton bg-teal"></div>
+                <div id="blue" class="colorButton bg-blue"></div>
+                <div id="violet" class="colorButton bg-violet"></div>
+                <div id="purple" class="colorButton bg-purple"></div>
+            </div>
+            <div class="toolbar-colors">
+                <div id="black" class="colorButton bg-black"></div>
+                <div id="gray100" class="colorButton bg-gray-100"></div>
+                <div id="gray200" class="colorButton bg-gray-200"></div>
+                <div id="gray300" class="colorButton bg-gray-300"></div>
+                <div id="gray400" class="colorButton bg-gray-400"></div>
+                <div id="gray500" class="colorButton bg-gray-500"></div>
+                <div id="gray600" class="colorButton bg-gray-600"></div>
+                <div id="white" class="colorButton bg-white"></div>
+                <!-- <div class="colorButton bg-purple"></div> -->
+            </div>
+        </div>
+        <div class="toolbar-drawWidth-container">
+
+            <div id="width1" class="width-button">1</div>
+            <div id="width2" class="width-button">2</div>
+            <div id="width3" class="width-button">3</div>
+
+        </div>
+
+
+    </div>
+
+    <img id="main-image" />
+
+    <canvas id="canvas"> </canvas>
+
 
 </body>
- <script > require('../../../../dist/renderer/features/paintWindow/paintRenderer.js')</script>
+<script> require('../../../../dist/renderer/features/paintWindow/paintRenderer.js')</script>
+
 </html>

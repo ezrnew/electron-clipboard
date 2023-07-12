@@ -2,7 +2,7 @@ import { ipcRenderer } from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import { reducerActions, store } from "../store/store"
 import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
-import { setImage } from "../features/paintWindow/paintRenderer";
+import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
 
  class IpcRendererHandler {
 
@@ -64,14 +64,14 @@ import { setImage } from "../features/paintWindow/paintRenderer";
 
 
         //!paint
-        ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
+        // ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
 
-            console.log("received paint response:")
-            console.log(data.substring(1,60))
-            setImage(data)
-            // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
-            // appendClipboardData(value)
-        })
+        //     console.log("received paint response:")
+        //     console.log(data.substring(1,60))
+        //     setImageToCanvas(data)
+        //     // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
+        //     // appendClipboardData(value)
+        // })
 
 
 

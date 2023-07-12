@@ -7,14 +7,14 @@ import { paintWindow } from "../features/paintWindow/PaintWindow";
 export class IpcMainHandler {
 
     private window: BrowserWindow
-    private paintwindow: BrowserWindow
+    private paintSender:  Electron.IpcMainEvent["sender"]
 
 
-    constructor(window: BrowserWindow,paintWindow:BrowserWindow) {
+    constructor(window: BrowserWindow) {
         console.log('consturctor:',window,":::",paintWindow)
         
         this.window = window;
-        this.paintwindow = paintWindow;
+        // this.paintwindow = paintWindow;
 
         this.initIpcListeners()
     }
@@ -58,8 +58,9 @@ export class IpcMainHandler {
 
 sendPaintResponse(image64: string) {
 
-   console.log('sending paing res to:',this.paintwindow)
-    this.paintwindow.webContents.send(ipcMainActions.paintResponse, image64);
+//    console.log('sending paing res to:',this.paintSender)
+   this.paintSender.send(ipcMainActions.paintResponse, image64)
+    // this.paintwindow.webContents.send(ipcMainActions.paintResponse, image64);
 
 }
 
@@ -84,6 +85,21 @@ sendPaintResponse(image64: string) {
             console.log('received paint request with data: ',arg.substring(1,100))
 
             paintWindow.open(arg)
+
+            // this.sendPaintResponse(paintWindow.getImage())
+
+
+        });
+
+
+
+        ipcMain.on(ipcRendererActions.paintWindowReady, (event,arg) => {
+            this.paintSender = event.sender
+            // console.log('PAINT GOTUW,sender',event.sender)
+            
+            // console.log('received paint request with data: ',arg.substring(1,100))
+
+            // // paintWindow.open(arg)
 
             this.sendPaintResponse(paintWindow.getImage())
 
