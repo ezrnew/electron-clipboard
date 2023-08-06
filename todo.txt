@@ -1,3 +1,7 @@
+fetch runtimeconfig
+
+ctrl+z ctrl+y obsluzyc w paincie
+
 
 https://www.youtube.com/watch?v=3GqUM4mEYKA
 eletron paint
@@ -24,4 +28,3 @@ zhandlować zeby nie wyswietlalo image jak sie skopiuje data:image/png;base64,
 
 //////
 moze zmienic ten img.src = data: skoro "data" jest tylko do zdjęcia a nie do kopiowania
-swuj paint

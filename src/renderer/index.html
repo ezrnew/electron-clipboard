@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <!-- ??blob:<URL> -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data:">
     <title>Hello World!</title>
     <link rel="stylesheet" href="style.css">
 
@@ -18,10 +18,23 @@
     <div id="main-container">
 
 
-      
-      <input/><br/>
-      <input/><br/>
-      <input/><br/>
+      <div class="clipboard-inputs-container">
+<div class="clipboard-button-container" >
+
+  <!-- <button id="copy-button-1" class="clipboard-button"><img id="copy-button-image-1" src="assets/clipboard-solid.svg" class="clipboard-button-image xd"/></button> -->
+   <input id="clipboard-input-1" class="clipboard-input"/>
+</div>
+<div class="clipboard-button-container" >
+
+  <!-- <button id="copy-button-2"  class="clipboard-button"><img id="copy-button-image-2" src="assets/clipboard-solid.svg" class="clipboard-button-image xd"/></button> -->
+   <input id="clipboard-input-2" class="clipboard-input"/>
+</div>
+<div class="clipboard-button-container" >
+
+  <!-- <button id="copy-button-3" class="clipboard-button"><img id="copy-button-image-3" src="assets/clipboard-solid.svg" class="clipboard-button-image xd"/></button>  -->
+  <input id="clipboard-input-3" class="clipboard-input"/>
+</div>
+      </div>
       
     </br>
     
@@ -30,8 +43,8 @@
       
     </ul>
     
+    <button id="button1"> testowy</button>
     
-    <button id="button1"> always on top</button>
   </div>
   </body>
 </html>

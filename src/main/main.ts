@@ -15,8 +15,10 @@ import { IpcMainHandler } from './connection/IpcMainHandler';
 import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
 import { CLIPBOARD_WINDOW_MENU } from './utils/menuBarHandler';
 import { paintWindow } from './features/paintWindow/PaintWindow';
+import { configType, readInitialConfig } from './utils/initialConfigHandler';
 
 export let win: BrowserWindow;
+
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -44,6 +46,34 @@ const createWindow = () => {
 app.whenReady().then(() => {
 
     createWindow()
+
+    console.log("??5353sdsddd5")
+    readInitialConfig().then((data:configType) => {
+       win.setAlwaysOnTop(data.alwaysOnTop)
+    }
+        )
+
+
+// const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
+
+// (async () => {
+//   if (!(await checkAccessibilityPermissions({ prompt: true }))) {
+//     console.log('grant accessibility permissions and restart this program');
+//     process.exit(1);
+//   }
+
+//   for (;;) {
+//     try {
+//       const selection = await getSelection();
+//       console.log('current selection:', selection);
+//     } catch (error) {
+//       console.error('error', error);
+//     }
+//     await sleep(1000);
+//   }
+// })();
+
+
     // paintWindow.initialize()
 
 

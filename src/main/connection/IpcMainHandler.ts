@@ -7,65 +7,53 @@ import { paintWindow } from "../features/paintWindow/PaintWindow";
 export class IpcMainHandler {
 
     private window: BrowserWindow
-    private paintSender:  Electron.IpcMainEvent["sender"]
+    private paintSender: Electron.IpcMainEvent["sender"]
 
 
     constructor(window: BrowserWindow) {
-        console.log('consturctor:',window,":::",paintWindow)
-        
+        // console.log('consturctor:', window, ":::", paintWindow)
+
         this.window = window;
         // this.paintwindow = paintWindow;
 
         this.initIpcListeners()
     }
 
-
-
-
-    sendClipboardEvery60 () {
+    sendClipboardEvery60() {
         //todo
 
         getInitialClipboard()
-        .then(dataArray => {
+            .then(dataArray => {
 
-          this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
+                this.window.webContents.send(ipcMainActions.initialClipboard, dataArray);
 
-        })
-
- 
-     }
+            })
 
 
+    }
 
     sendClipboardData(data: string) {
-
-   
         this.window.webContents.send(ipcMainActions.clipboard, data);
-
     }
 
-
-    sendShortcutData(data: any) {
-
-   
+    sendShortcutData(data: shortcutData) {
         this.window.webContents.send(ipcMainActions.shortcutData, data);
-
     }
 
 
 
-// PAINT 
+    // PAINT 
 
-sendPaintResponse(image64: string) {
+    sendPaintResponse(image64: string) {
 
-//    console.log('sending paing res to:',this.paintSender)
-   this.paintSender.send(ipcMainActions.paintResponse, image64)
-    // this.paintwindow.webContents.send(ipcMainActions.paintResponse, image64);
+        //    console.log('sending paing res to:',this.paintSender)
+        this.paintSender.send(ipcMainActions.paintResponse, image64)
+        // this.paintwindow.webContents.send(ipcMainActions.paintResponse, image64);
 
-}
+    }
 
 
-
+    //!################################# INIT LISTENERS #######################################
 
     private initIpcListeners() {
 
@@ -78,11 +66,11 @@ sendPaintResponse(image64: string) {
         });
 
 
-        ipcMain.on(ipcRendererActions.paintRequest, (event,arg) => {
+        ipcMain.on(ipcRendererActions.paintRequest, (event, arg) => {
             //todo need to add verification on renderer and here if its valid image
 
-            
-            console.log('received paint request with data: ',arg.substring(1,100))
+
+            console.log('received paint request with data: ', arg.substring(1, 100))
 
             paintWindow.open(arg)
 
@@ -93,10 +81,10 @@ sendPaintResponse(image64: string) {
 
 
 
-        ipcMain.on(ipcRendererActions.paintWindowReady, (event,arg) => {
+        ipcMain.on(ipcRendererActions.paintWindowReady, (event, arg) => {
             this.paintSender = event.sender
             // console.log('PAINT GOTUW,sender',event.sender)
-            
+
             // console.log('received paint request with data: ',arg.substring(1,100))
 
             // // paintWindow.open(arg)

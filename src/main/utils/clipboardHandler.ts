@@ -161,6 +161,18 @@ export const getInitialClipboard = () => {
 }
 
 
+export const clearClipboardFile = () => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(CLIPBOARD_DATA_PATH, '', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve("res")
+
+    });
+  });
+}
 
 
 

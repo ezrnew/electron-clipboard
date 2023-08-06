@@ -11,10 +11,11 @@ import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
         this.initIpcListeners()
     }
 
-    sendGuwno(data: boolean) {
-        ipcRenderer.send(ipcRendererActions.windowOnTop, data)
+    // sendGuwno(data: boolean) {
+    //     console.log("wysylam")
+    //     ipcRenderer.send(ipcRendererActions.windowOnTop, data)
 
-    }
+    // }
     sendWindowReady() {
         ipcRenderer.send(ipcRendererActions.windowReady)
 
@@ -54,9 +55,9 @@ import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
             appendClipboardData(value)
         })
 
-        ipcRenderer.on(ipcMainActions.shortcutData, (_event, data) => {
+        ipcRenderer.on(ipcMainActions.shortcutData, (_event, data:shortcutData) => {
 
-            // console.log("received shortcut:")
+            console.log("received shortcut:",data)
             // console.log(data)
             // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
             // appendClipboardData(value)

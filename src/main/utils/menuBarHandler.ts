@@ -1,5 +1,8 @@
 import { Menu } from "electron";
 import { win } from "../main";
+import { clearClipboardFile } from "./clipboardHandler";
+import { alwaysOnTopConfigHandler } from "./initialConfigHandler";
+// import * as config from "../../../data/initialConfig.json"
 
 
 const template = [
@@ -38,6 +41,11 @@ const template = [
           click: alwaysOnTopHandler,
           checked:false,
         },
+        {
+          label: 'clear all data',
+          click: clearClipboardHandler,
+          checked:false,
+        },
         // {
         //   role: 'copy'
         // },
@@ -51,10 +59,18 @@ const template = [
 
 
 function alwaysOnTopHandler () {
+  console.log('alwayssontop?')
+  alwaysOnTopConfigHandler(!win.isAlwaysOnTop())
     win.setAlwaysOnTop(!win.isAlwaysOnTop())
 
 }
 
+
+function clearClipboardHandler () {
+  clearClipboardFile()
+  //todo wyslac nowa date
+
+}
 
 
 export const CLIPBOARD_WINDOW_MENU = Menu.buildFromTemplate(template as Electron.MenuItemConstructorOptions[])
