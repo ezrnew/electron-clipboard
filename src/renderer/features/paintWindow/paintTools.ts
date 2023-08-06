@@ -1,22 +1,22 @@
 class PaintTools {
-    private color: string
-    private drawingWidth: number
+    private _color: string
+    private _drawingWidth: number
 
 
     constructor() {
-        this.color = "#000000"
-        this.drawingWidth = 5
+        this._color = "#000000"
+        this._drawingWidth = 5
 
 
         this.initializeToolsListeners()
     }
 
     getColor() {
-        return this.color
+        return this._color
     }
 
     getDrawingWidth() {
-        return this.drawingWidth
+        return this._drawingWidth
     }
 
 
@@ -43,32 +43,32 @@ class PaintTools {
         const colorButtonWhite = document.getElementById("white")
 
 
-        colorButtonRed.addEventListener('click', () => { this.color = "#ff0000" })
-        colorButtonOrange.addEventListener('click', () => { this.color = "#FFA500" })
-        colorButtonYellow.addEventListener('click', () => { this.color = "#FFFF00" })
-        colorButtonYellowgreen.addEventListener('click', () => { this.color = "#ADFF2F" })
-        colorButtonGreen.addEventListener('click', () => { this.color = "#008000" })
-        colorButtonTeal.addEventListener('click', () => { this.color = "#008080" })
-        colorButtonBlue.addEventListener('click', () => { this.color = "#0000FF" })
-        colorButtonViolet.addEventListener('click', () => { this.color = "#EE82EE" })
-        colorButtonPurple.addEventListener('click', () => { this.color = "#800080" })
-        colorButtonBlack.addEventListener('click', () => { this.color = "#000000" })
-        colorButtonGray100.addEventListener('click', () => { this.color = "#232323" })
-        colorButtonGray200.addEventListener('click', () => { this.color = "#484848" })
-        colorButtonGray300.addEventListener('click', () => { this.color = "#6F6F6F" })
-        colorButtonGray400.addEventListener('click', () => { this.color = "#909090" })
-        colorButtonGray500.addEventListener('click', () => { this.color = "#BCBCBC" })
-        colorButtonGray600.addEventListener('click', () => { this.color = "#D3D3D3" })
-        colorButtonWhite.addEventListener('click', () => { this.color = "#FFFFFF" })
+        colorButtonRed.addEventListener('click', () => { this._color = "#ff0000" })
+        colorButtonOrange.addEventListener('click', () => { this._color = "#FFA500" })
+        colorButtonYellow.addEventListener('click', () => { this._color = "#FFFF00" })
+        colorButtonYellowgreen.addEventListener('click', () => { this._color = "#ADFF2F" })
+        colorButtonGreen.addEventListener('click', () => { this._color = "#008000" })
+        colorButtonTeal.addEventListener('click', () => { this._color = "#008080" })
+        colorButtonBlue.addEventListener('click', () => { this._color = "#0000FF" })
+        colorButtonViolet.addEventListener('click', () => { this._color = "#EE82EE" })
+        colorButtonPurple.addEventListener('click', () => { this._color = "#800080" })
+        colorButtonBlack.addEventListener('click', () => { this._color = "#000000" })
+        colorButtonGray100.addEventListener('click', () => { this._color = "#232323" })
+        colorButtonGray200.addEventListener('click', () => { this._color = "#484848" })
+        colorButtonGray300.addEventListener('click', () => { this._color = "#6F6F6F" })
+        colorButtonGray400.addEventListener('click', () => { this._color = "#909090" })
+        colorButtonGray500.addEventListener('click', () => { this._color = "#BCBCBC" })
+        colorButtonGray600.addEventListener('click', () => { this._color = "#D3D3D3" })
+        colorButtonWhite.addEventListener('click', () => { this._color = "#FFFFFF" })
 
 
         const paintWidth1 = document.getElementById("width1")
         const paintWidth2 = document.getElementById("width2")
         const paintWidth3 = document.getElementById("width3")
 
-        paintWidth1.addEventListener('click', () => { this.drawingWidth = 2 })
-        paintWidth2.addEventListener('click', () => { this.drawingWidth = 5 })
-        paintWidth3.addEventListener('click', () => { this.drawingWidth = 10 })
+        paintWidth1.addEventListener('click', () => { this._drawingWidth = 2 })
+        paintWidth2.addEventListener('click', () => { this._drawingWidth = 5 })
+        paintWidth3.addEventListener('click', () => { this._drawingWidth = 10 })
 
 
 

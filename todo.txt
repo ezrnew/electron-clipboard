@@ -1,4 +1,5 @@
 fetch runtimeconfig
+zapisac pozycje i rozmiar okna clipboardowego w configu
 
 ctrl+z ctrl+y obsluzyc w paincie
 
