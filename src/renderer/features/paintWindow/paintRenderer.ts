@@ -1,15 +1,27 @@
 import { ipcPaint } from "../../connection/IpcRendererPaintHandler"
+import { paint } from "./Paint"
 import { tools } from "./paintTools"
 
 const TOOLBAR_HEIGHT= 60
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('script')
-    ipcPaint.sendWindowReady()
+document.addEventListener('DOMContentLoaded',async function () {
+  console.log('script')
+  ipcPaint.sendWindowReady()
+
 
 // const canvas = document.getElementById("canvas") as HTMLCanvasElement
 // const canvasContext = canvas.getContext('2d')
 
+
+// function handleKeyDown(event) {
+//   console.log('handlekeydown',event)
+//   if (event.ctrlKey && event.key === 'c') {
+//     console.log('Ctrl + C pressed');
+//     // Your code to execute when Ctrl + C is pressed
+//   }
+// }
+
+// window.addEventListener('keydown', handleKeyDown);
 
 
 // // canvas.width=window.innerWidth
@@ -47,26 +59,46 @@ document.addEventListener('DOMContentLoaded', function () {
 //     canvasContext.moveTo(e.clientX,e.clientY-TOOLBAR_HEIGHT)
 
 // }
+// const wartosc = await setImageToCanvas(ipcPaint.initialImage)
 
 
 
-var cPushArray = new Array();
-var cStep = -1;
+//! PAINTING
+
+let firstDrawing = true
+var cPushArray = [];
+// cPushArray.push((document.getElementById('canvas')as HTMLCanvasElement).toDataURL())
+// var poczontkoweZdjencie = ((document.getElementById('canvas')as HTMLCanvasElement).toDataURL());
+// cPushArray.push((document.getElementById('canvas')as HTMLCanvasElement).toDataURL());
+console.log('SIARRAJINITIALNY', cPushArray)
+var cStep = 0;
 var ctx2= (document.getElementById('canvas')as HTMLCanvasElement).getContext("2d");
 
-function cPushuje() {
+
+
+
+function cPush() {
   cStep++;
+  console.log("CPUSZUJE, STEP:",cStep)
   if (cStep < cPushArray.length) { cPushArray.length = cStep; }
   cPushArray.push((document.getElementById('canvas')as HTMLCanvasElement).toDataURL());
+  console.log('NOWY C ARRAY:',cPushArray)
 }
 
 
 function cUndo() {
-  console.log(cPushArray)
-  console.log("C UNDO")
   if (cStep > 0) {
-    console.log('cekrok',cStep)
-      cStep--;
+    cStep--;
+    console.log("przechodzi step po reducki:",cStep)
+      var canvasPic = new Image();
+      canvasPic.src = cPushArray[cStep];
+      canvasPic.onload = function () { ctx2.drawImage(canvasPic, 0, 0); }
+  }
+}
+
+function cRedo() {
+  if (cStep < cPushArray.length-1) {
+      cStep++;
       var canvasPic = new Image();
       canvasPic.src = cPushArray[cStep];
       canvasPic.onload = function () { ctx2.drawImage(canvasPic, 0, 0); }
@@ -90,6 +122,11 @@ var mouse = {x: 0, y: 0};
 var previous = {x: 0, y: 0};
 
 canvas.addEventListener('mousedown', function(e) {
+// if(firstDrawing){
+//   cPushArray.push((document.getElementById('canvas')as HTMLCanvasElement).toDataURL())
+//   firstDrawing =false
+// }
+  
 drawing = true; 
 previous = {x:mouse.x,y:mouse.y};
 mouse = oMousePos(canvas, e);
@@ -123,66 +160,91 @@ ctx.stroke();
 canvas.addEventListener('mouseup', function() {
 drawing=false;
 // Adding the path to the array or the paths
-console.log('PUSZUJE SE PUNKTY')
-console.log(points)
-pathsry.push(points);
+// console.log('PUSZUJE SE PUNKTY')
+// console.log(points)
+// pathsry.push(points);
 
-gluwnatablica.push({points,color:tools.getColor(),width:tools.getDrawingWidth()})
-cPushuje()
+// gluwnatablica.push({points,color:tools.getColor(),width:tools.getDrawingWidth()})
+//! cPush()
+paint.pushImage()
 
 }, false);
 
+canvas.addEventListener('mouseleave', function() {
+
+// if(drawing){
+//   cPush()
+// }
+
+  drawing=false;
+  // Adding the path to the array or the paths
+  // console.log('PUSZUJE SE PUNKTY')
+  // console.log(points)
+  // pathsry.push(points);
+  
+  // gluwnatablica.push({points,color:tools.getColor(),width:tools.getDrawingWidth()})
+ 
+  
+  }, false);
+
 const undo = document.getElementById("undo")
 
-undo.addEventListener("click",cUndo);
+undo.addEventListener("click",()=>{paint.undo()});
 
-async function drawPaths(){
-  // delete everything
-  // ctx.clearRect(0,0,canvas.width,canvas.height);
-  const wartosc = await setImageToCanvas(ipcPaint.initialImage)
-  // draw all the paths in the paths array
-  // setTimeout(() => {
-    console.log(wartosc)
+const redo = document.getElementById("redo")
+
+redo.addEventListener("click",()=>{paint.redo()});
+
+
+
+
+// async function drawPaths(){
+//   // delete everything
+//   // ctx.clearRect(0,0,canvas.width,canvas.height);
+//   const wartosc = await setImageToCanvas(ipcPaint.initialImage)
+//   // draw all the paths in the paths array
+//   // setTimeout(() => {
+//     console.log(wartosc)
     
  
-  // pathsry.forEach(path=>{
-  //   console.log(path)
-  // ctx.beginPath();
-  // ctx.moveTo(path[0].x,path[0].y);  
-  // for(let i = 1; i < path.length; i++){
-  //   ctx.lineTo(path[i].x,path[i].y); 
-  // }
-  //   ctx.stroke();
-  // })
-  // pathcanvasContext.lineWidth = tools.getDrawingWidth()
-  gluwnatablica.forEach(item=>{
-    console.log(item)
-    ctx.strokeStyle = item.color
-    ctx.lineWidth = item.width 
-  ctx.beginPath();
-  ctx.moveTo(item.points[0].x,item.points[0].y);  
-  for(let i = 1; i < item.points.length; i++){
-    ctx.lineTo(item.points[i].x,item.points[i].y); 
-  }
-    ctx.stroke();
-  })
+//   // pathsry.forEach(path=>{
+//   //   console.log(path)
+//   // ctx.beginPath();
+//   // ctx.moveTo(path[0].x,path[0].y);  
+//   // for(let i = 1; i < path.length; i++){
+//   //   ctx.lineTo(path[i].x,path[i].y); 
+//   // }
+//   //   ctx.stroke();
+//   // })
+//   // pathcanvasContext.lineWidth = tools.getDrawingWidth()
+//   gluwnatablica.forEach(item=>{
+//     console.log(item)
+//     ctx.strokeStyle = item.color
+//     ctx.lineWidth = item.width 
+//   ctx.beginPath();
+//   ctx.moveTo(item.points[0].x,item.points[0].y);  
+//   for(let i = 1; i < item.points.length; i++){
+//     ctx.lineTo(item.points[i].x,item.points[i].y); 
+//   }
+//     ctx.stroke();
+//   })
 
 
 
 
 
-// }, 100);
-}  
+// // }, 100);
+// }  
 
-function Undo(){
-  console.log("UNDOADASDASASDA")
+// function Undo(){
+//   console.log("UNDOADASDASASDA")
  
-  // remove the last path from the paths array
-  pathsry.splice(-1,1);
-  gluwnatablica.splice(-1,1);
-  // draw all the paths in the paths array
-  drawPaths();
-}
+//   // remove the last path from the paths array
+//   pathsry.splice(-1,1);
+//   gluwnatablica.splice(-1,1);
+//   // draw all the paths in the paths array
+//   drawPaths();
+// }
 
 
 // a function to detect the mouse position
@@ -193,6 +255,14 @@ function oMousePos(canvas, evt) {
 	y: Math.round(evt.clientY - ClientRect.top)
 }
 }
+
+
+
+
+
+
+
+
 
 
 

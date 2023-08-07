@@ -12,6 +12,7 @@ eletron paint
 na hover tekstu zrobic okienko elektronowe z full tekstem
 w sumie na hover img zrobić ful podgląd zdjęcia 
 
+ctrl+c w paincie kopiuje zedytowny image do schowka?
 
 
 

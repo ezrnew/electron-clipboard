@@ -95,8 +95,10 @@ function isText(data: string) {
 
 
 
-function writeClipboardImage(base64Image: string) {
+export function writeClipboardImage(base64Image: string) {
 
+    console.log("typ:", typeof base64Image)
+    console.log(base64Image)
     const base64 = base64Image.replace('data:image/png;base64,', '')
 
     const blob = b64toBlob(base64, 'image/png');

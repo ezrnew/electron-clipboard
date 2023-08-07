@@ -5,7 +5,7 @@ import * as path from 'path'
 // let paintWindow:BrowserWindow
 
  class PaintWindow {
-    private _window
+    private _window:BrowserWindow
     private _image
 
     // constructor(){

@@ -3,6 +3,7 @@ import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import { reducerActions, store } from "../store/store"
 import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
 import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
+import { paint } from "../features/paintWindow/Paint";
 
  class IpcRendererHandler {
 
@@ -34,9 +35,9 @@ import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
         ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
 
             console.log("received paint response in new ipc handler:")
-            this.initialImage=data
+           paint.setInitialImage(data)
+           paint.setInitialImageToCanvas()
             // console.log()
-            setImageToCanvas(this.initialImage)
             // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
             // appendClipboardData(value)
         })

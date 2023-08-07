@@ -97,6 +97,8 @@ function initApp() {
 
     const ipc = new IpcMainHandler(win)
 
+
+
     clipboardHandler(ipc)
     keyboardShortcutsHandler(ipc)
 
