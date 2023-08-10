@@ -1,3 +1,7 @@
+?na hover tekstu zrobic okienko elektronowe z full tekstem
+?w sumie na hover img zrobić ful podgląd zdjęcia 
+
+
 odczytywanie initial clipboarda naprawic albo splity poprawic
 ^ chyba dziala ale potestowac trzeba + pomyslec czy nie mozna zmergować 2 funkcji do usuwania i dodawania wpisu
 
@@ -7,7 +11,3 @@ cos sie wykurwia jak pliku nie ma
 
 zwalidowac czy poprawny data url przed wyslaniem do renderera
 
-
-//////
-moze zmienic ten img.src = data: skoro "data" jest tylko do zdjęcia a nie do kopiowania
-swuj paint

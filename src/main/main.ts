@@ -3,68 +3,73 @@
 
 // const ipcEvents =    require("../common/events.ts")
 
-
 // const { app, BrowserWindow,ipcMain  } = require('electron')
-import { app, BrowserWindow, globalShortcut, ipcMain, screen } from 'electron'
-import * as Positioner from 'electron-positioner'
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu, Rectangle, screen } from 'electron';
+import * as Positioner from 'electron-positioner';
 
-import * as path from 'path'
+import * as path from 'path';
 import { windowStickToBorderHandler } from './utils/windowStickToScreenBorder';
 import { clipboardHandler } from './utils/clipboardHandler';
 import { IpcMainHandler } from './connection/IpcMainHandler';
 import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
+import { CLIPBOARD_WINDOW_MENU } from './utils/menuBarHandler';
+import { paintWindow } from './features/paintWindow/PaintWindow';
+import Store from 'electron-store';
 
-let win: BrowserWindow;
+const store = new Store();
+
+export let win: BrowserWindow;
+console.log(app.getPath('userData'));
 
 const createWindow = () => {
-    win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        autoHideMenuBar: true, //alt pokazuje dalej bara
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-            preload: path.join(__dirname, 'preload.js'),
-            devTools: true,
-        }
-    })
+  const clipboardBounds = store.get('clipboard-bounds') as Rectangle;
+  const bounds = clipboardBounds
+    ? { width: clipboardBounds.width, height: clipboardBounds.height, x: clipboardBounds.x, y: clipboardBounds.y }
+    : { width: null, height: null, x: null, y: null };
 
-    console.log(path.join(app.getAppPath(), 'src','renderer', 'index.html'))
-    win.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'))
+  win = new BrowserWindow({
+    width: bounds.width,
+    height: bounds.height,
+    x: bounds.x,
+    y: bounds.y,
+    autoHideMenuBar:true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
+      devTools: true,
+    },
+  });
 
-    win.webContents.openDevTools();
+  Menu.setApplicationMenu(CLIPBOARD_WINDOW_MENU);
 
-}
+  win.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'));
+
+  win.webContents.openDevTools();
+};
 
 app.whenReady().then(() => {
+  createWindow();
+  win.on('close', () => {
+    store.set('clipboard-bounds', win.getBounds());
+  });
+  win.setAlwaysOnTop(store.get('always-on-top') as boolean);
 
-    createWindow()
+  //?
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
 
-
-
-
-//?
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
-
-
-    initApp()
-
-})
+  initApp();
+});
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
+  if (process.platform !== 'darwin') app.quit();
+});
 
 function initApp() {
+  const ipc = new IpcMainHandler(win);
 
-    const ipc = new IpcMainHandler(win)
-
-    clipboardHandler(ipc)
-    keyboardShortcutsHandler(ipc)
-
-
-
+  clipboardHandler(ipc);
+  keyboardShortcutsHandler(ipc);
 }
-

@@ -1,0 +1,5 @@
+
+zablokowano możliwość kopiowania dataurli ręcznie (przynajmniej tych z png)
+
+
+.\node_modules\.bin\electron-rebuild.cmd

@@ -1,5 +1,6 @@
-import { CLIPBOARD_DATA_PATH, CLIPBOARD_SPLIT, CLIPBOARD_SPLIT2 } from "../../common/constants";
+import { BASE64, CLIPBOARD_DATA_PATH, CLIPBOARD_SPLIT, CLIPBOARD_SPLIT2 } from "../../common/constants";
 import { IpcMainHandler } from "../connection/IpcMainHandler";
+import {  validateBase64 } from "./validateBase64";
 
 const clipboardListener = require('clipboard-event');
 const { clipboard, nativeImage } = require('electron');
@@ -11,7 +12,7 @@ const FileType = require('file-type');
 const rootDir = process.cwd()
 
 
-let  lastEntry = '' 
+let lastEntry = ''
 
 
 
@@ -20,21 +21,22 @@ export const clipboardHandler = (ipc: IpcMainHandler) => {
   clipboardListener.startListening();
 
   clipboardListener.on('change', async () => {
+    
 
-    const format = getContentFormat()
-    if (!format) return;
-
-
+    const format = getFormat()
+    if (!format)return 
+    
 
     const clipboardContent = getContent(format)
-
-
-
-
-
-
-
-
+    // if (format === "image") {
+    //   console.log("WCHODZI W FORMAT")
+    //   if (!validateBase64(getContent(format))) {
+    //     console.log('INVALID BASE64 W IFIE')
+    //     return
+    //   } else {
+    //     console.log("git zdjencie")
+    //   }
+    // }
 
     ipc.sendClipboardData(clipboardContent)
 
@@ -47,11 +49,10 @@ export const clipboardHandler = (ipc: IpcMainHandler) => {
 
     // console.log(nativeImage.createFromBuffer( clipboard.readImage('clipboard').toJPEG(100)))
 
-    const chuj = clipboard.readImage('clipboard').toDataURL()
     // clipboard.writeImage(nativeImage.createFromBuffer( clipboard.readImage('clipboard').toJPEG(100)))
 
     deleteOldEntryIfExists(clipboardContent)
-      .then((res) => {if(res==='cancel')return;  saveToFile(dataDirectory, getContent(format)) })
+      .then((res) => { if (res === 'cancel') return; saveToFile(dataDirectory, getContent(format)) })
       .catch(err => console.log(err))
 
 
@@ -64,9 +65,9 @@ export const clipboardHandler = (ipc: IpcMainHandler) => {
 
 
 
-const getContentFormat = () => {
-
-  if (clipboard.readText('clipboard') !== '') {
+const getFormat = () => {
+//todo should it be validating dataurl preventing copying them manually?
+  if (clipboard.readText('clipboard') !== '' &&  !clipboard.readText('clipboard').startsWith(BASE64)) {
 
     return 'text';
   }
@@ -79,7 +80,7 @@ const getContentFormat = () => {
 
 }
 
-const getContent = (format) => {
+const getContent = (format: "text" | "image") => {
   return (format === "text") ? clipboard.readText('clipboard') : clipboard.readImage('clipboard').toDataURL()
 
 }
@@ -124,14 +125,14 @@ const getDataDirectory = () => {
 
 
 const saveToFile = (directory: string, data: string) => {
-// console.log('zapisywanko:')
-// console.log(lastEntry)
-// console.log(data)
-  if(data === lastEntry) return;
-  lastEntry=data
+  // console.log('zapisywanko:')
+  // console.log(lastEntry)
+  // console.log(data)
+  if (data === lastEntry) return;
+  lastEntry = data
 
 
-  fs.appendFile(directory, data+CLIPBOARD_SPLIT, (err) => {
+  fs.appendFile(directory, data + CLIPBOARD_SPLIT, (err) => {
     if (err) {
       console.error(err);
       return;
@@ -161,6 +162,18 @@ export const getInitialClipboard = () => {
 }
 
 
+export const clearClipboardFile = () => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(CLIPBOARD_DATA_PATH, '', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve("res")
+
+    });
+  });
+}
 
 
 
@@ -170,12 +183,12 @@ export const getInitialClipboard = () => {
 
 export const deleteOldEntryIfExists = (entry: string) => {
 
- 
+
 
   return new Promise((resolve, reject) => {
 
 
-    if(entry === lastEntry) {
+    if (entry === lastEntry) {
       resolve('cancel')
       return;
     }
@@ -192,7 +205,7 @@ export const deleteOldEntryIfExists = (entry: string) => {
       }
 
       const kurwisko = `\n${entry}${CLIPBOARD_SPLIT}`
-      
+
       // console.log('kurwisko')
       // console.log(kurwisko)
 

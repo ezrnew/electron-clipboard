@@ -1,3 +1,5 @@
+import { ipc } from "../connection/IpcRendererHandler";
+
 export function displayInitialClipboardData(data: string[]) {
 
     const clipboardList = document.getElementById('clipboard-list')
@@ -9,6 +11,8 @@ export function displayInitialClipboardData(data: string[]) {
         let item = document.createElement('li')
         item.appendChild(getLiChild(entry))
         item.addEventListener('click', () => { onEntryClick(entry) })
+        if(!isText(entry)){item.addEventListener('contextmenu', () => { onImageRightClick(entry) })}
+        
 
         clipboardList.appendChild(item)
 
@@ -20,17 +24,18 @@ let lastEntry = ''
 
 export function appendClipboardData(data: string) {
 
-    if (lastEntry === data) { console.log('taki sam'); return; }
+    if (lastEntry === data) {return; }
     lastEntry = data
 
     const clipboardList = document.getElementById('clipboard-list')
 
     let item = document.createElement('li')
 
-    // item.appendChild(document.createTextNode(data))
     item.appendChild(getLiChild(data))
 
     item.addEventListener('click', () => { onEntryClick(data) })
+
+    if(!isText(data)){item.addEventListener('contextmenu', () => { onImageRightClick(data) })}
 
     clipboardList.appendChild(item)
 
@@ -69,9 +74,20 @@ function onEntryClick(data: string) {
 
 }
 
+
+function onImageRightClick(data:string){
+
+    ipc.sendPaintRequest(data)
+
+}
+
+
+
+
+
 function isText(data: string) {
 
-    return !data.startsWith('data:image')
+    return !data.startsWith('data:image/png;base64,')
 
 
 }
@@ -79,8 +95,10 @@ function isText(data: string) {
 
 
 
-function writeClipboardImage(base64Image: string) {
+export function writeClipboardImage(base64Image: string) {
 
+    console.log("typ:", typeof base64Image)
+    console.log(base64Image)
     const base64 = base64Image.replace('data:image/png;base64,', '')
 
     const blob = b64toBlob(base64, 'image/png');

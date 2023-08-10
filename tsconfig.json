@@ -4,10 +4,13 @@
     "module": "commonjs",
     "moduleResolution": "node16",//?
     "types": ["node"],//?
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+"esModuleInterop": true,
+    
   },
   "include": [
-    "src"
+    "src","data"
   ],
   "exclude": [
     "node_modules"
