@@ -4,7 +4,7 @@ class PaintTools {
 
 
     constructor() {
-        this._color = "#000000"
+        this._color = "#ff0000"
         this._drawingWidth = 5
 
 

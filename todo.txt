@@ -1,19 +1,5 @@
-fetch runtimeconfig
-zapisac pozycje i rozmiar okna clipboardowego w configu
-
-ctrl+z ctrl+y obsluzyc w paincie
-
-
-https://www.youtube.com/watch?v=3GqUM4mEYKA
-eletron paint
-
-
-
-na hover tekstu zrobic okienko elektronowe z full tekstem
-w sumie na hover img zrobić ful podgląd zdjęcia 
-
-ctrl+c w paincie kopiuje zedytowny image do schowka?
-
+?na hover tekstu zrobic okienko elektronowe z full tekstem
+?w sumie na hover img zrobić ful podgląd zdjęcia 
 
 
 odczytywanie initial clipboarda naprawic albo splity poprawic
@@ -25,8 +11,3 @@ cos sie wykurwia jak pliku nie ma
 
 zwalidowac czy poprawny data url przed wyslaniem do renderera
 
-zhandlować zeby nie wyswietlalo image jak sie skopiuje data:image/png;base64,
-
-
-//////
-moze zmienic ten img.src = data: skoro "data" jest tylko do zdjęcia a nie do kopiowania

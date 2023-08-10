@@ -1,76 +1,37 @@
-import { Menu } from "electron";
-import { win } from "../main";
-import { clearClipboardFile } from "./clipboardHandler";
-import { alwaysOnTopConfigHandler } from "./initialConfigHandler";
-// import * as config from "../../../data/initialConfig.json"
+import { Menu } from 'electron';
+import { win } from '../main';
+import { clearClipboardFile } from './clipboardHandler';
+import Store from 'electron-store';
 
+const store = new Store();
 
 const template = [
-    // {
-    //   label: 'File',
-    //   submenu: [
-    //     {
-    //       label: 'Open',
-    //       accelerator: 'CmdOrCtrl+O',
-    //       click() {
-    //         // Handle "Open" action
-    //       }
-    //     },
-    //     {
-    //       label: 'Save',
-    //       accelerator: 'CmdOrCtrl+S',
-    //       click() {
-    //         // Handle "Save" action
-    //       }
-    //     },
-    //     {
-    //       label: 'Quit',
-    //       accelerator: 'CmdOrCtrl+Q',
-    //       click() {
-    //         // app.quit();
-    //       }
-    //     }
-    //   ]
-    // },
-    {
-      label: 'Settings',
-      submenu: [
-        {
-          type: 'checkbox',
-          label: 'always on top',
-          click: alwaysOnTopHandler,
-          checked:false,
-        },
-        {
-          label: 'clear all data',
-          click: clearClipboardHandler,
-          checked:false,
-        },
-        // {
-        //   role: 'copy'
-        // },
-        // {
-        //   role: 'paste'
-        // },
-        
-      ]
-    },
-  ];
+  {
+    label: 'Settings',
+    submenu: [
+      {
+        type: 'checkbox',
+        label: 'always on top',
+        click: alwaysOnTopHandler,
+        checked: store.get('always-on-top'),
+      },
+      {
+        label: 'clear all data',
+        click: clearClipboardHandler,
+        checked: false,
+      },
+    ],
+  },
+];
 
-
-function alwaysOnTopHandler () {
-  console.log('alwayssontop?')
-  alwaysOnTopConfigHandler(!win.isAlwaysOnTop())
-    win.setAlwaysOnTop(!win.isAlwaysOnTop())
-
+function alwaysOnTopHandler() {
+  store.set('always-on-top', !win.isAlwaysOnTop());
+  win.setAlwaysOnTop(!win.isAlwaysOnTop());
 }
 
-
-function clearClipboardHandler () {
-  clearClipboardFile()
+function clearClipboardHandler() {
+  clearClipboardFile();
   //todo wyslac nowa date
-
 }
 
-
-export const CLIPBOARD_WINDOW_MENU = Menu.buildFromTemplate(template as Electron.MenuItemConstructorOptions[])
+export const CLIPBOARD_WINDOW_MENU = Menu.buildFromTemplate(template as Electron.MenuItemConstructorOptions[]);
