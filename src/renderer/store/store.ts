@@ -2,16 +2,18 @@ const { createStore } = require('redux');
 
 
 interface ReducerState  {
-clipboardData: string[]
+clipboardData: string[],
+entrySize:number
 }
 
 export const reducerActions = {
     SET_INITIAL_CLIPBOARD:'setInitialState',
-    ADD_CLIPBOARD_ENTRY:'addClipboardEntry'
+    ADD_CLIPBOARD_ENTRY:'addClipboardEntry',
+    SET_ENTRY_SIZE:'setEntrySize'
 
 } as const
 
-const initialState:ReducerState = { clipboardData:[] };
+const initialState:ReducerState = { clipboardData:[],entrySize:2 };
 
 // Reducer function
 function reducer(state = initialState, action) {  
@@ -23,12 +25,16 @@ function reducer(state = initialState, action) {
       newData.push(action.payload)
 
       return { ...state, clipboardData: newData };
+
+      case reducerActions.SET_ENTRY_SIZE:
+        return { ...state, entrySize: action.payload };
+
+
     default:
       return state;
   }
 }
 
-// Create Redux store
 export const store = createStore(reducer);
 
 

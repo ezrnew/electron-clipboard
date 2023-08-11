@@ -1,61 +1,35 @@
 // import { initClipboardHandler } from "../main/utils/clipboardHandler"
 
-import { ipcRenderer } from "electron"
-import { ipcMainActions } from "../common/ipcActions"
-import { ipc } from "./connection/IpcRendererHandler"
-import { store } from "./store/store"
+import { ipcRenderer } from 'electron';
+import { ipcMainActions } from '../common/ipcActions';
+import { ipc } from './connection/IpcRendererHandler';
 
+document.addEventListener('DOMContentLoaded', () => {
+  ipc;
+  intializeInputs();
+});
 
-
-console.log('renderer')
-
-
-
-
-
-document.addEventListener('DOMContentLoaded',  ()=> {
-    ipc;
-intializeInputs()
-
-
-
-
-})
-
-   
-
-
-function intializeInputs(){
-    document.getElementById("clipboard-input-1").addEventListener("contextmenu",(event)=>{
-        event.preventDefault()
-        // @ts-ignore
-        navigator.clipboard.writeText(document.getElementById("clipboard-input-1").value)
-        console.log('copied')
-        })
-        document.getElementById("clipboard-input-2").addEventListener("contextmenu",(event)=>{
-            event.preventDefault()
-            // @ts-ignore
-            navigator.clipboard.writeText(document.getElementById("clipboard-input-2").value)
-            console.log('copied')
-            })
-            document.getElementById("clipboard-input-3").addEventListener("contextmenu",(event)=>{
-                event.preventDefault()
-                // @ts-ignore
-                navigator.clipboard.writeText(document.getElementById("clipboard-input-3").value)
-                console.log('copied')
-                })
-        
+function intializeInputs() {
+  document.getElementById('clipboard-input-1').addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    // @ts-ignore
+    navigator.clipboard.writeText(document.getElementById('clipboard-input-1').value);
+  });
+  document.getElementById('clipboard-input-2').addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    // @ts-ignore
+    navigator.clipboard.writeText(document.getElementById('clipboard-input-2').value);
+  });
+  document.getElementById('clipboard-input-3').addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    // @ts-ignore
+    navigator.clipboard.writeText(document.getElementById('clipboard-input-3').value);
+    console.log('copied');
+  });
 }
-    
-
-
-
-
 
 // let alwaysOnTop = true
 // let timeoutId;
-   
-
 
 // const copyButton1 = document.getElementById("copy-button-1")
 // const copyButton2 = document.getElementById("copy-button-2")
@@ -67,7 +41,6 @@ function intializeInputs(){
 
 // async function handleCopyButton(event:MouseEvent,button:HTMLButtonElement) {
 //     const buttonIndex = button.id.charAt(button.id.length - 1);
-    
 
 //     console.log(buttonIndex)
 //     // @ts-ignore
@@ -79,13 +52,11 @@ function intializeInputs(){
 
 //     console.log(input.value)
 
-    
 //    timeoutId= setTimeout(() => {
 //     img.src="assets/clipboard-solid.svg"
 //     button.disabled=false
 
 //    }, 1500);
-
 
 // }
 
@@ -99,4 +70,3 @@ function intializeInputs(){
 //     alwaysOnTop = !alwaysOnTop
 
 // }
-

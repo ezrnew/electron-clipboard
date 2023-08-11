@@ -13,6 +13,8 @@ export const ipcMainActions = {
     initialClipboard : "initial-clipboard-data",
     clipboard : "clipboard-data",
     shortcutData:  "key-shortcut-data",
+    inputsQuantity:  "inputs-quantity",
+    clipboardEntrySize:  "clipboard-entry-size",
 
     //paint
     paintResponse: 'paint-response'

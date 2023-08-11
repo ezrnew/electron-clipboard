@@ -16,9 +16,6 @@ export function windowStickToBorderHandler(window:BrowserWindow){
     const threshold = 40
 
 
-    window.on('always-on-top-changed',() =>{
-  
-    })
 
     window.on('move',() => {
 

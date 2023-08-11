@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
-import { reducerActions, store } from "../store/store"
 import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
 import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
 import { paint } from "../features/paintWindow/Paint";
@@ -38,7 +37,6 @@ import { paint } from "../features/paintWindow/Paint";
            paint.setInitialImage(data)
            paint.setInitialImageToCanvas()
             // console.log()
-            // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
             // appendClipboardData(value)
         })
 

@@ -1,86 +1,47 @@
-import { ipcRenderer } from "electron"
-import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
-import { reducerActions, store } from "../store/store"
-import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
-import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
+import { ipcRenderer } from 'electron';
+import { ipcMainActions, ipcRendererActions } from '../../common/ipcActions';
+import { reducerActions, store } from '../store/store';
+import { appendClipboardData, displayInitialClipboardData, displayInputs, setEntrySize } from '../utils/displayClipboard';
+import { setImageToCanvas } from '../features/paintWindow/paintRenderer';
 
- class IpcRendererHandler {
+class IpcRendererHandler {
+  constructor() {
+    this.sendWindowReady();
+    this.initIpcListeners();
+  }
 
-    constructor() {
-        this.sendWindowReady()
-        this.initIpcListeners()
-    }
+  sendWindowReady() {
+    ipcRenderer.send(ipcRendererActions.windowReady);
+  }
 
-    // sendGuwno(data: boolean) {
-    //     console.log("wysylam")
-    //     ipcRenderer.send(ipcRendererActions.windowOnTop, data)
+  sendPaintRequest(data: string) {
+    ipcRenderer.send(ipcRendererActions.paintRequest, data);
+  }
 
-    // }
-    sendWindowReady() {
-        ipcRenderer.send(ipcRendererActions.windowReady)
+  private initIpcListeners() {
+    ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
+      console.log('received initial clipboardxd ');
 
-    }
+      displayInitialClipboardData(value);
+    });
+    ipcRenderer.on(ipcMainActions.clipboard, (_event, value) => {
+      appendClipboardData(value);
+    });
 
-    sendPaintRequest(data: string) {
-        ipcRenderer.send(ipcRendererActions.paintRequest, data)
+    ipcRenderer.on(ipcMainActions.shortcutData, (_event, data: shortcutData) => {
+      console.log('received shortcut:', data);
+    });
 
-    }
+    ipcRenderer.on(ipcMainActions.inputsQuantity, (_event, data: number) => {
+      console.log('received inputsQuantity:', data);
+      displayInputs(data)
+    });
 
-
-
-
-
-
-    private initIpcListeners() {
-        ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
-
-            console.log('received initial clipboardxd ')
-
-
-            store.dispatch({ type: reducerActions.SET_INITIAL_CLIPBOARD, payload: value })
-            displayInitialClipboardData(value)
-
-        })
-        ipcRenderer.on(ipcMainActions.clipboard, (_event, value) => {
-
-
-            store.dispatch({ type: reducerActions.ADD_CLIPBOARD_ENTRY, payload: value })
-            appendClipboardData(value)
-        })
-
-        ipcRenderer.on(ipcMainActions.clipboard, (_event, value) => {
-
-
-            store.dispatch({ type: reducerActions.ADD_CLIPBOARD_ENTRY, payload: value })
-            appendClipboardData(value)
-        })
-
-        ipcRenderer.on(ipcMainActions.shortcutData, (_event, data:shortcutData) => {
-
-            console.log("received shortcut:",data)
-            // console.log(data)
-            // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
-            // appendClipboardData(value)
-        })
-
-
-        //!paint
-        // ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
-
-        //     console.log("received paint response:")
-        //     console.log(data.substring(1,60))
-        //     setImageToCanvas(data)
-        //     // store.dispatch({type:reducerActions.ADD_CLIPBOARD_ENTRY,payload:value})
-        //     // appendClipboardData(value)
-        // })
-
-
-
-
-
-    }
-
-
+    ipcRenderer.on(ipcMainActions.clipboardEntrySize, (_event, data: 1 | 2 | 3) => {
+      console.log('received clipboardEntrySize:', data);
+      setEntrySize(data);
+    });
+  }
 }
 
-export const ipc = new IpcRendererHandler()
+export const ipc = new IpcRendererHandler();
