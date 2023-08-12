@@ -155,3 +155,22 @@ const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
   const blob = new Blob(byteArrays, { type: contentType });
   return blob;
 };
+
+export function getTextFromInput(index: number) {
+  return (document.getElementById(`clipboard-input-${index}`) as HTMLInputElement).value;
+}
+
+
+//todo wywala sie czasami document is not focused spprawdzic czy bedzie dzialac potym focus()
+export async function setClipboardTextToInput(index: number) {
+  console.log('dostaje index:', index);
+  try{
+    const clipboardText = await navigator.clipboard.readText();
+    console.log('dostaje clibpardoadasdastext:', clipboardText);
+
+    (document.getElementById(`clipboard-input-${index}`) as HTMLInputElement).value = clipboardText;
+  }catch(e){
+    console.log("wyjebawszy sie",e)
+    document.getElementById("main-container").focus()
+  }
+}

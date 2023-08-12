@@ -13,5 +13,16 @@ zwalidowac czy poprawny data url przed wyslaniem do renderera
 
 scrollowanie bez scrollbara overflow hidden na html
 
+okno do customizowania controlsów?
 
-apka wyswietla sie jako proces w windowsie a nie jak apka
+
+wykryć jaki os i dostosować keyboard shortcuty
+
+ctrl+s do zapisania pliku w paincie
+
+tray(system notification area)
+
+mozliwosc wylaczenia shortcutow w menu electronowym (unregister)
+
+
+

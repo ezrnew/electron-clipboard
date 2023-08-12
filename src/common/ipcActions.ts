@@ -4,6 +4,7 @@ export const ipcRendererActions = {
 
 
     paintRequest : "paint-request",
+    inputPasteResponse:  "input-paste-response",
     //paint
     paintWindowReady:"paint-ready"
 } as const
@@ -15,6 +16,8 @@ export const ipcMainActions = {
     shortcutData:  "key-shortcut-data",
     inputsQuantity:  "inputs-quantity",
     clipboardEntrySize:  "clipboard-entry-size",
+    inputPasteRequest:  "input-paste-request",
+    inputCopyRequest:  "input-copy-request",
 
     //paint
     paintResponse: 'paint-response'

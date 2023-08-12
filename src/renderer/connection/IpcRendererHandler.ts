@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { ipcMainActions, ipcRendererActions } from '../../common/ipcActions';
 import { reducerActions, store } from '../store/store';
-import { appendClipboardData, displayInitialClipboardData, displayInputs, setEntrySize } from '../utils/displayClipboard';
+import { appendClipboardData, displayInitialClipboardData, displayInputs, getTextFromInput, setClipboardTextToInput, setEntrySize } from '../utils/displayClipboard';
 import { setImageToCanvas } from '../features/paintWindow/paintRenderer';
 
 class IpcRendererHandler {
@@ -17,6 +17,12 @@ class IpcRendererHandler {
   sendPaintRequest(data: string) {
     ipcRenderer.send(ipcRendererActions.paintRequest, data);
   }
+
+  sendInputPasteResponse(data: string) {
+    ipcRenderer.send(ipcRendererActions.inputPasteResponse, data);
+  }
+
+
 
   private initIpcListeners() {
     ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
@@ -41,6 +47,19 @@ class IpcRendererHandler {
       console.log('received clipboardEntrySize:', data);
       setEntrySize(data);
     });
+
+    ipcRenderer.on(ipcMainActions.inputPasteRequest, (_event, data: number) => {
+     
+      this.sendInputPasteResponse(getTextFromInput(data))
+    });
+
+    ipcRenderer.on(ipcMainActions.inputCopyRequest, (_event, data: number) => {
+     
+     
+     setClipboardTextToInput(data)
+     
+    });
+
   }
 }
 

@@ -1,96 +1,185 @@
-// import { clipboard, globalShortcut } from "electron";
-// import { IpcMainHandler } from "../connection/IpcMainHandler";
-// import * as ncp from "copy-paste"
-// import { paintWindow } from "../features/paintWindow/PaintWindow";
-// // const { clipboard } = require('electron');
-// // import ks from "node-key-sender"
+import { clipboard, globalShortcut } from "electron";
+import { IpcMainHandler, ipc } from "../connection/IpcMainHandler";
+import * as ncp from "copy-paste"
+import { paintWindow } from "../features/paintWindow/PaintWindow";
+import robot from "robotjs"
+// const { clipboard } = require('electron');
+// import ks from "node-key-sender"
 
 
-// // const printSelectedText = (selectedText) => {
-// //   console.log(`Selected Text: ${selectedText}`);
-// // };
+// const printSelectedText = (selectedText) => {
+//   console.log(`Selected Text: ${selectedText}`);
+// };
 
 
-// //!global hotkeys prevent default behavior
-// //todo custom keys
-// export const keyboardShortcutsHandler = (ipc: IpcMainHandler) =>{
+//!global hotkeys prevent default behavior
+//todo custom keys
+export const keyboardShortcutsHandler = () =>{
+  
+    const copy1 = 'CommandOrControl+f1';
+    const copy2 = 'CommandOrControl+f2';
+    const copy3 = 'CommandOrControl+f3';
+    const copy4 = 'CommandOrControl+f4';
+    const copy5 = 'CommandOrControl+f5';
 
-//     const copy1 = 'CommandOrControl+Shift+1';
-//     const copy2 = 'CommandOrControl+Shift+2';
-//     const paste1 = 'CommandOrControl+Alt+1';
-//     const paste2 = 'CommandOrControl+Alt+2';
-//     const copyDefault = 'CommandOrControl+C';
-
-
-// //     globalShortcut.register(copyDefault, () => {
-// //       // Handle the key combination event
-// //       // console.log(paintWindow.getWindow())
-// // if(!paintWindow.getWindow() || paintWindow.getWindow().isDestroyed()) return
-
-// //       console.log('SFOKUSOWANE OKNO PAINTOWE:',paintWindow.getWindow().isFocused())
-// //       // console.log())
-
+    // const copy2 = 'CommandOrControl+Shift+2';
+    // const paste1 = 'CommandOrControl+Alt+1';
+    const paste1 = 'Shift+f1';
+    const paste2 = 'Shift+f2';
+    const paste3 = 'Shift+f3';
+    const paste4 = 'Shift+f4';
+    const paste5 = 'Shift+f5';
+ 
+//todo hardcoded keytoggles
+    globalShortcut.register(paste1, () => {
+      robot.keyToggle('shift', 'up');
       
-// //       // console.log('paste 2');
-// //     })
+      console.log('paste 1');
+      ipc.sendInputPasteRequest(1)
+    })
 
-
-
-//     // globalShortcut.register(copy1, async() => {
-//     //   // Handle the key combination event
-
-//     //   // ncp.copy('some text', function () {
-//     //     // robot.keyToggle('v');
-//     //     // robot.keyToggle('control');
-//     //     // robot.keyToggle('v');
-//     //   // })
-//     //   ipc.sendShortcutData({data:clipboard.readText(),type:"copy",index:1})
-
+    globalShortcut.register(paste2, () => {
+      robot.keyToggle('shift', 'up');
       
-//     //   console.log('copy 1');
-//     // });
+      console.log('paste 2');
+      ipc.sendInputPasteRequest(2)
+    })
 
-//     // globalShortcut.register(copy2, () => {
+    globalShortcut.register(paste3, () => {
+      robot.keyToggle('shift', 'up');
       
+      console.log('paste 3');
+      ipc.sendInputPasteRequest(3)
+    })
+
+    globalShortcut.register(paste4, () => {
+      robot.keyToggle('shift', 'up');
       
+      console.log('paste 4');
+      ipc.sendInputPasteRequest(4)
+    })
 
-//     //   const printSelectedText = (selectedText) => {
-//     //     console.log(`Selected Text: ${selectedText}`);
-//     //   };
+    globalShortcut.register(paste5, () => {
+      robot.keyToggle('shift', 'up');
       
+      console.log('paste 5');
+      ipc.sendInputPasteRequest(5)
+    })
+//////!
+
+    globalShortcut.register(copy1, () => {
+
+      robot.keyToggle('command', 'up');
+
+      robot.keyTap('c', ['control'])
+      ipc.sendInputCopyRequest(1)
       
-//     //   // Handle the key combination event
+      console.log('copy1 ');
+    })
 
+    globalShortcut.register(copy2, () => {
+
+      robot.keyToggle('command', 'up');
+
+      robot.keyTap('c', ['control'])
+      ipc.sendInputCopyRequest(2)
       
-//     //   console.log('copy 2');
-//     // })
+      console.log('copy2 ');
+    })
 
-//     // globalShortcut.register(paste1, () => {
-//     //   // Handle the key combination event
+    globalShortcut.register(copy3, () => {
 
-//     //   console.log("kombinancja")
+      robot.keyToggle('command', 'up');
 
-//     //   // ks.sendKey('a')
-//     //   console.log("kombinancja2")
-//     //   // ncp.paste('pastadozembuw')
-//     //   // ncp.paste('pastadozembuw', function () {
-//     //   //   // complete...
-//     //   //   console.log("ncp copy")
-//     //   // })
-
-
-
+      robot.keyTap('c', ['control'])
+      ipc.sendInputCopyRequest(3)
       
-//     //   console.log('paste 1 ');
-//     // })
+      console.log('copy3 ');
+    })
 
-//     // globalShortcut.register(paste2, () => {
-//     //   // Handle the key combination event
+    globalShortcut.register(copy4, () => {
 
+      robot.keyToggle('command', 'up');
+
+      robot.keyTap('c', ['control'])
+      ipc.sendInputCopyRequest(4)
       
-//     //   console.log('paste 2');
-//     // })
+      console.log('copy4 ');
+    })
+
+    globalShortcut.register(copy5, () => {
+
+      robot.keyToggle('command', 'up');
+
+      robot.keyTap('c', ['control'])
+      ipc.sendInputCopyRequest(5)
+      
+      console.log('copy5 ');
+    })
+
+
+
+
+    
+
     
 
 
-// }
+    // globalShortcut.register(copy1, async() => {
+    //   // Handle the key combination event
+
+    //   // ncp.copy('some text', function () {
+    //     // robot.keyToggle('v');
+    //     // robot.keyToggle('control');
+    //     // robot.keyToggle('v');
+    //   // })
+    //   ipc.sendShortcutData({data:clipboard.readText(),type:"copy",index:1})
+
+      
+    //   console.log('copy 1');
+    // });
+
+    // globalShortcut.register(copy2, () => {
+      
+      
+
+    //   const printSelectedText = (selectedText) => {
+    //     console.log(`Selected Text: ${selectedText}`);
+    //   };
+      
+      
+    //   // Handle the key combination event
+
+      
+    //   console.log('copy 2');
+    // })
+
+    // globalShortcut.register(paste1, () => {
+    //   // Handle the key combination event
+
+    //   console.log("kombinancja")
+
+    //   // ks.sendKey('a')
+    //   console.log("kombinancja2")
+//   // ncp.paste('pastadozembuw')
+    //   // ncp.paste('pastadozembuw', function () {
+    //   //   // complete...
+    //   //   console.log("ncp copy")
+    //   // })
+
+
+
+      
+    //   console.log('paste 1 ');
+    // })
+
+    // globalShortcut.register(paste2, () => {
+    //   // Handle the key combination event
+
+      
+    //   console.log('paste 2');
+    // })
+    
+
+
+}

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut, ipcMain, Menu, Rectangle, screen } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu,Tray, Rectangle, screen } from 'electron';
 import * as Positioner from 'electron-positioner';
 
 import * as path from 'path';
@@ -8,10 +8,15 @@ import { ipc, IpcMainHandler } from './connection/IpcMainHandler';
 import { CLIPBOARD_WINDOW_MENU, storeActions } from './utils/menuBarHandler';
 import { paintWindow } from './features/paintWindow/PaintWindow';
 import Store from 'electron-store';
+import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
 
+// import zdjencie from "../main/pobrane.png"
+const rootDir = process.cwd()
+const zdjencieDir = rootDir+"\\src\\assets\\pobrane.png"
 const store = new Store();
 
 export let win: BrowserWindow;
+let tray = null
 console.log(app.getPath('userData'));
 
 const createWindow = () => {
@@ -27,6 +32,7 @@ console.log("hide menuw mmaine:",hideMenu)
     height: bounds.height,
     x: bounds.x,
     y: bounds.y,
+    skipTaskbar:true,
     autoHideMenuBar: hideMenu,
     webPreferences: {
       nodeIntegration: true,
@@ -56,6 +62,20 @@ app.whenReady().then(() => {
   });
 
   initApp();
+
+//
+
+// https://www.electronjs.org/docs/latest/api/tray
+tray = new Tray(zdjencieDir)
+const contextMenu = Menu.buildFromTemplate([
+  { label: 'Item1', type: 'radio' },
+  { label: 'Item2', type: 'radio' },
+  { label: 'Item3', type: 'radio', checked: true },
+  { label: 'Item4', type: 'radio' }
+])
+tray.setToolTip('This is my application.')
+tray.setContextMenu(contextMenu)
+
 });
 
 app.on('window-all-closed', () => {
@@ -67,4 +87,5 @@ function initApp() {
 
   ipc.setMainWindow(win)
   clipboardListenerHandler();
+  keyboardShortcutsHandler()
 }
