@@ -1,3 +1,7 @@
+/* html{
+    overflow: hidden;
+} */
+
 #main-container{
 background-color: #2E2F34;
 overflow: hidden;

@@ -11,3 +11,7 @@ cos sie wykurwia jak pliku nie ma
 
 zwalidowac czy poprawny data url przed wyslaniem do renderera
 
+scrollowanie bez scrollbara overflow hidden na html
+
+
+apka wyswietla sie jako proces w windowsie a nie jak apka
