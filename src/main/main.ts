@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut, ipcMain, Menu,Tray, Rectangle, screen } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu, Tray, Rectangle, screen } from 'electron';
 import * as Positioner from 'electron-positioner';
 
 import * as path from 'path';
@@ -8,31 +8,27 @@ import { ipc, IpcMainHandler } from './connection/IpcMainHandler';
 import { CLIPBOARD_WINDOW_MENU, storeActions } from './utils/menuBarHandler';
 import { paintWindow } from './features/paintWindow/PaintWindow';
 import Store from 'electron-store';
-import { keyboardShortcutsHandler } from './utils/keyboardShortcutsHandler';
+import { registerGlobalShortcuts } from './utils/keyboardShortcutsHandler';
+import { systemTrayHandler } from './utils/systemTrayHandler';
 
-// import zdjencie from "../main/pobrane.png"
-const rootDir = process.cwd()
-const zdjencieDir = rootDir+"\\src\\assets\\pobrane.png"
 const store = new Store();
 
 export let win: BrowserWindow;
-let tray = null
-console.log(app.getPath('userData'));
 
 const createWindow = () => {
-  const hideMenu = store.get(storeActions.HIDE_MENU) as boolean
+  const hideMenu = store.get(storeActions.HIDE_MENU) as boolean;
   const clipboardBounds = store.get(storeActions.CLIPBOARD_BOUNDS) as Rectangle;
   const bounds = clipboardBounds
     ? { width: clipboardBounds.width, height: clipboardBounds.height, x: clipboardBounds.x, y: clipboardBounds.y }
     : { width: null, height: null, x: null, y: null };
-console.log("hide menuw mmaine:",hideMenu)
 
   win = new BrowserWindow({
     width: bounds.width,
     height: bounds.height,
     x: bounds.x,
     y: bounds.y,
-    skipTaskbar:true,
+    show: !store.get(storeActions.HIDE_WINDOW_ON_START) as boolean,
+    skipTaskbar: !!store.get(storeActions.HIDE_TASKBAR_ICON) as boolean,
     autoHideMenuBar: hideMenu,
     webPreferences: {
       nodeIntegration: true,
@@ -63,19 +59,7 @@ app.whenReady().then(() => {
 
   initApp();
 
-//
-
-// https://www.electronjs.org/docs/latest/api/tray
-tray = new Tray(zdjencieDir)
-const contextMenu = Menu.buildFromTemplate([
-  { label: 'Item1', type: 'radio' },
-  { label: 'Item2', type: 'radio' },
-  { label: 'Item3', type: 'radio', checked: true },
-  { label: 'Item4', type: 'radio' }
-])
-tray.setToolTip('This is my application.')
-tray.setContextMenu(contextMenu)
-
+  //
 });
 
 app.on('window-all-closed', () => {
@@ -83,9 +67,13 @@ app.on('window-all-closed', () => {
 });
 
 function initApp() {
-
-
-  ipc.setMainWindow(win)
+  ipc.setMainWindow(win);
   clipboardListenerHandler();
-  keyboardShortcutsHandler()
+  systemTrayHandler(win);
+  if (store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS)) registerGlobalShortcuts();
+  //? enable if not specified yet in config
+  else if (store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS) === undefined) {
+    store.set(storeActions.ENABLE_GLOBAL_SHORTCUTS, true);
+    registerGlobalShortcuts();
+  }
 }

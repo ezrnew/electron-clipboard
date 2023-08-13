@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 import { ipcMainActions, ipcRendererActions } from '../../common/ipcActions';
 import { reducerActions, store } from '../store/store';
 import { appendClipboardData, displayInitialClipboardData, displayInputs, getTextFromInput, setClipboardTextToInput, setEntrySize } from '../utils/displayClipboard';
-import { setImageToCanvas } from '../features/paintWindow/paintRenderer';
+// import { setImageToCanvas } from '../features/paintWindow/paintRenderer';
 
 class IpcRendererHandler {
   constructor() {

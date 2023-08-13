@@ -10,6 +10,13 @@ overflow: hidden;
 
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
 .list-container{
 display: flex;
 flex-direction: column-reverse;

@@ -34,7 +34,7 @@ export const clipboardListenerHandler = () => {
   });
 };
 
-const getFormat = () => {
+export const getFormat = () => {
   //todo validating dataurl makes it impossible to copy it manually
   if (clipboard.readText('clipboard') !== '' && !clipboard.readText('clipboard').startsWith(BASE64)) {
     return 'text';
@@ -46,7 +46,7 @@ const getFormat = () => {
   return undefined;
 };
 
-const getContent = (format: 'text' | 'image') => {
+export const getContent = (format: 'text' | 'image') => {
   return format === 'text' ? clipboard.readText('clipboard') : clipboard.readImage('clipboard').toDataURL();
 };
 

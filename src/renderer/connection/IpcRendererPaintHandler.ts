@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron"
 import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
 import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
-import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
+// import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
 import { paint } from "../features/paintWindow/Paint";
 
  class IpcRendererHandler {
@@ -32,10 +32,17 @@ import { paint } from "../features/paintWindow/Paint";
 
         //!paint
         ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
-
+            console.log(data)
             console.log("received paint response in new ipc handler:")
-           paint.setInitialImage(data)
-           paint.setInitialImageToCanvas()
+
+            if(data){
+
+                
+                paint.setInitialImage(data)
+                paint.setInitialImageToCanvas()
+            }else {
+                paint.setInitialEmptyCanvas()
+            }
             // console.log()
             // appendClipboardData(value)
         })

@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from 'path'
 import Store from 'electron-store'
+import { storeActions } from "../../utils/menuBarHandler";
 
 const store = new Store()
 
@@ -9,7 +10,7 @@ const store = new Store()
 
 class PaintWindow {
     private _window: BrowserWindow
-    private _image
+    private _image:string | null = null
 
     // constructor(){
 
@@ -18,9 +19,9 @@ class PaintWindow {
     // }
 
     //todo window is created at app start but is hidden
-    open(image: string) {
-        console.log('initialize')
-        const paintBounds = store.get("paint-bounds") as Electron.Rectangle
+    open(image: string | null) {
+        // console.log('initialize',image)
+        const paintBounds = store.get(storeActions.PAINT_BOUNDS) as Electron.Rectangle
         const bounds = paintBounds ? { width: paintBounds.width, height: paintBounds.height, x: paintBounds.x, y: paintBounds.y } : { width: null, height: null, x: null, y: null }
 
         this._image = image
@@ -29,7 +30,8 @@ class PaintWindow {
             height: bounds.height,
             x: bounds.x,
             y: bounds.y,
-            autoHideMenuBar: true, //alt pokazuje dalej bara
+            // autoHideMenuBar: true, 
+           
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: false,
@@ -39,9 +41,9 @@ class PaintWindow {
         })
 
         this._window.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'features', 'paintWindow', 'index.html'))
-
+        this._window.setMenuBarVisibility(false)
         this._window.on('close', () => {
-            store.set('paint-bounds', this._window.getBounds())
+            store.set(storeActions.PAINT_BOUNDS, this._window.getBounds())
         })
 
         this._window.webContents.openDevTools();

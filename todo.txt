@@ -1,6 +1,5 @@
-?na hover tekstu zrobic okienko elektronowe z full tekstem
-?w sumie na hover img zrobić ful podgląd zdjęcia 
 
+//
 
 odczytywanie initial clipboarda naprawic albo splity poprawic
 ^ chyba dziala ale potestowac trzeba + pomyslec czy nie mozna zmergować 2 funkcji do usuwania i dodawania wpisu
@@ -11,18 +10,21 @@ cos sie wykurwia jak pliku nie ma
 
 zwalidowac czy poprawny data url przed wyslaniem do renderera
 
-scrollowanie bez scrollbara overflow hidden na html
+rozciągalny canavs
 
-okno do customizowania controlsów?
+undo/redo sie buguje czasem jak się wyjedzie myszką poza canvas
 
+
+?na hover tekstu zrobic okienko elektronowe z full tekstem
+
+?w sumie na hover img zrobić ful podgląd zdjęcia 
 
 wykryć jaki os i dostosować keyboard shortcuty
 
-ctrl+s do zapisania pliku w paincie
-
-tray(system notification area)
-
-mozliwosc wylaczenia shortcutow w menu electronowym (unregister)
+object has beeen destroyed error jak się włączy 2 painty
 
 
+https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
 
+
+okno do customizowania controlsów?

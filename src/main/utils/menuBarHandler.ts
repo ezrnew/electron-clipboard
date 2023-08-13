@@ -1,8 +1,11 @@
-import { Menu } from 'electron';
+import { BrowserWindow, Menu, Notification, dialog, shell } from 'electron';
 import { win } from '../main';
 import { clearClipboardFile } from './clipboardHandler';
 import Store from 'electron-store';
 import { ipc } from '../connection/IpcMainHandler';
+import { registerGlobalShortcuts, unregisterGlobalShortcuts } from './keyboardShortcutsHandler';
+import { CLIPBOARD_DATA_PATH } from '../../common/constants';
+import { showClearDataDialog } from './showClearDataDialog';
 
 const store = new Store();
 
@@ -13,11 +16,15 @@ export const storeActions = {
   PAINT_BOUNDS: 'paint-bounds',
   INPUTS_QUANTITY: 'inputs-quantity',
   ENTRY_SIZE: 'entry-size',
+  HIDE_WINDOW_ON_START: 'show-window-on-start',
+  HIDE_TASKBAR_ICON: 'hide-taskbar-icon',
+  ENABLE_GLOBAL_SHORTCUTS: 'enable-global-shortcuts',
 } as const;
 
 const template = [
   {
     label: 'Settings',
+    accelerator: 'Alt+S',
     submenu: [
       {
         type: 'checkbox',
@@ -26,8 +33,22 @@ const template = [
         checked: store.get(storeActions.ALWAYS_ON_TOP),
       },
       {
-        label: 'clear all data',
-        click: clearClipboardHandler,
+        type: 'checkbox',
+        label: 'hide window on start',
+        click: hideWindowOnStartHandler,
+        checked: store.get(storeActions.HIDE_WINDOW_ON_START),
+      },
+      {
+        type: 'checkbox',
+        label: 'hide taskbar icon',
+        click: hideTaskbarIconHandler,
+        checked: store.get(storeActions.HIDE_TASKBAR_ICON),
+      },
+      {
+        type: 'checkbox',
+        label: 'enable global shortcuts',
+        click: enableGolbalShortcutsHandler,
+        checked: store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS),
       },
     ],
   },
@@ -40,7 +61,7 @@ const template = [
         submenu: [
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 0,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 0,
             label: '0',
             click: () => {
               inputsQuantityHandler(0);
@@ -48,7 +69,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 1,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 1,
             label: '1',
             click: () => {
               inputsQuantityHandler(1);
@@ -56,7 +77,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 2,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 2,
             label: '2',
             click: () => {
               inputsQuantityHandler(2);
@@ -64,7 +85,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 3,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 3,
             label: '3',
             click: () => {
               inputsQuantityHandler(3);
@@ -72,7 +93,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 4,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 4,
             label: '4',
             click: () => {
               inputsQuantityHandler(4);
@@ -80,7 +101,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.INPUTS_QUANTITY) === 5,
+            checked: store.get(storeActions.INPUTS_QUANTITY) === 5,
             label: '5',
             click: () => {
               inputsQuantityHandler(5);
@@ -94,7 +115,7 @@ const template = [
         submenu: [
           {
             type: 'radio',
-            checked:store.get(storeActions.ENTRY_SIZE) === 1,
+            checked: store.get(storeActions.ENTRY_SIZE) === 1,
             label: 'small',
             click: () => {
               clipboardEntrySizeHandler(1);
@@ -102,7 +123,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.ENTRY_SIZE) === 2,
+            checked: store.get(storeActions.ENTRY_SIZE) === 2,
             label: 'medium',
             click: () => {
               clipboardEntrySizeHandler(2);
@@ -110,7 +131,7 @@ const template = [
           },
           {
             type: 'radio',
-            checked:store.get(storeActions.ENTRY_SIZE) === 3,
+            checked: store.get(storeActions.ENTRY_SIZE) === 3,
             label: 'large',
             click: () => {
               clipboardEntrySizeHandler(3);
@@ -126,6 +147,25 @@ const template = [
       },
     ],
   },
+  {
+    label: 'Data',
+    submenu: [
+      {
+        label: 'open directory',
+        click: openDataDirectoryHandler,
+      },
+      {
+        label: 'clear all data',
+        click: clearClipboardHandler,
+      },
+    ],
+  },
+  {
+    label: 'Help',
+    click: () => {
+      console.log('aa pomusz mi');
+    },
+  },
 ];
 
 function alwaysOnTopHandler() {
@@ -133,9 +173,18 @@ function alwaysOnTopHandler() {
   win.setAlwaysOnTop(!win.isAlwaysOnTop());
 }
 
+function openDataDirectoryHandler() {
+  shell.showItemInFolder(CLIPBOARD_DATA_PATH);
+}
 function clearClipboardHandler() {
-  clearClipboardFile();
-  //todo wyslac nowa date
+  showClearDataDialog(win).then((result) =>
+    result.clickedId === result.acceptId
+      ? (() => {
+          clearClipboardFile();
+          ipc.sendInitialClipboard();
+        })()
+      : null
+  );
 }
 
 function hideMenuHandler() {
@@ -156,6 +205,26 @@ function inputsQuantityHandler(quantity: number) {
 function clipboardEntrySizeHandler(size: 1 | 2 | 3) {
   store.set(storeActions.ENTRY_SIZE, size);
   ipc.sendClipboardEntrySize(size);
+}
+
+function hideWindowOnStartHandler() {
+  store.set(storeActions.HIDE_WINDOW_ON_START, !store.get(storeActions.HIDE_WINDOW_ON_START));
+}
+
+function hideTaskbarIconHandler() {
+  const newValue = !store.get(storeActions.HIDE_TASKBAR_ICON);
+  store.set(storeActions.HIDE_TASKBAR_ICON, newValue);
+  win.setSkipTaskbar(newValue);
+}
+
+function enableGolbalShortcutsHandler() {
+  const newValue = !store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS);
+  store.set(storeActions.ENABLE_GLOBAL_SHORTCUTS, newValue);
+  if (newValue) {
+    registerGlobalShortcuts();
+  } else {
+    unregisterGlobalShortcuts();
+  }
 }
 
 export const CLIPBOARD_WINDOW_MENU = Menu.buildFromTemplate(template as Electron.MenuItemConstructorOptions[]);

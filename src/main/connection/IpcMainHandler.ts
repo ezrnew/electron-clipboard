@@ -72,10 +72,10 @@ export class IpcMainHandler {
     });
 
     ipcMain.on(ipcRendererActions.paintRequest, (event, arg) => {
-      //todo need to add verification on renderer and here if valid image
 
       console.log('received paint request with data: ', arg.substring(1, 100));
 
+      //todo arg validation
       paintWindow.open(arg);
     });
 
