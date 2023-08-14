@@ -1,30 +1,24 @@
 
 //
-
-odczytywanie initial clipboarda naprawic albo splity poprawic
-^ chyba dziala ale potestowac trzeba + pomyslec czy nie mozna zmergować 2 funkcji do usuwania i dodawania wpisu
+object has beeen destroyed error jak się włączy 2 painty
 
 
-ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
-cos sie wykurwia jak pliku nie ma
 
-zwalidowac czy poprawny data url przed wyslaniem do renderera
+
+
 
 rozciągalny canavs
 
 undo/redo sie buguje czasem jak się wyjedzie myszką poza canvas
 
-
-?na hover tekstu zrobic okienko elektronowe z full tekstem
-
-?w sumie na hover img zrobić ful podgląd zdjęcia 
-
-wykryć jaki os i dostosować keyboard shortcuty
-
-object has beeen destroyed error jak się włączy 2 painty
-
+/////// moze kiedyś
 
 https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
 
+odczytywanie initial clipboarda naprawic
+
+wykryć jaki os i dostosować keyboard shortcuty
 
 okno do customizowania controlsów?
+
+ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)

@@ -24,7 +24,7 @@ export class IpcMainHandler {
 
     getInitialClipboard().then((dataArray) => {
       this._window.webContents.send(ipcMainActions.initialClipboard, dataArray);
-    });
+    }).catch(e => console.log("Unable to get clipboard data:",e))
   }
 
   sendClipboardData(data: string) {

@@ -1,5 +1,6 @@
 import { BASE64, CLIPBOARD_DATA_PATH, CLIPBOARD_SPLIT } from '../../common/constants';
 import { ipc } from '../connection/IpcMainHandler';
+import { restartApp } from './restartApplication';
 
 const clipboardListener = require('clipboard-event');
 const { clipboard } = require('electron');
@@ -14,6 +15,7 @@ let lastEntry = '';
 
 export const clipboardListenerHandler = () => {
   clipboardListener.startListening();
+  createFileIfDoesNotExist();
 
   clipboardListener.on('change', async () => {
     const format = getFormat();
@@ -28,9 +30,12 @@ export const clipboardListenerHandler = () => {
     deleteOldEntryIfExists(clipboardContent)
       .then((res) => {
         if (res === 'cancel') return;
-        saveToFile(getDataDirectory(), getContent(format));
+        saveToFile(CLIPBOARD_DATA_PATH, getContent(format));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        restartApp();
+      });
   });
 };
 
@@ -50,13 +55,10 @@ export const getContent = (format: 'text' | 'image') => {
   return format === 'text' ? clipboard.readText('clipboard') : clipboard.readImage('clipboard').toDataURL();
 };
 
-const getDataDirectory = () => {
-  const filePath = CLIPBOARD_DATA_PATH;
-
-  fs.access(filePath, fs.constants.F_OK, (err) => {
+const createFileIfDoesNotExist = () => {
+  fs.access(CLIPBOARD_DATA_PATH, fs.constants.F_OK, (err) => {
     if (err) {
-      // File does not exist, create it
-      fs.writeFile(filePath, '', (err) => {
+      fs.writeFile(CLIPBOARD_DATA_PATH, '', (err) => {
         if (err) {
           console.error('Error creating file:', err);
           return;
@@ -64,12 +66,9 @@ const getDataDirectory = () => {
         console.log('File created successfully.');
       });
     } else {
-      // File exists
       console.log('File already exists.');
     }
   });
-
-  return filePath;
 };
 
 const saveToFile = (directory: string, data: string) => {
@@ -127,14 +126,14 @@ export const deleteOldEntryIfExists = (entry: string) => {
         reject(err);
       }
 
-      const kurwisko = `\n${entry}${CLIPBOARD_SPLIT}`;
+      const splitEntry = `\n${entry}${CLIPBOARD_SPLIT}`;
 
-      if (!data.includes(kurwisko)) {
+      if (!data.includes(splitEntry)) {
         resolve('noentry');
         return;
       }
 
-      const modifiedFileData = data.replace(kurwisko, '\n');
+      const modifiedFileData = data.replace(splitEntry, '\n');
 
       fs.writeFile(CLIPBOARD_DATA_PATH, modifiedFileData, 'utf8', (err) => {
         if (err) {
