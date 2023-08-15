@@ -49,7 +49,6 @@ class PaintWindow {
         this._window.webContents.openDevTools();
 
 
-
     }
 
     // open(image:string){

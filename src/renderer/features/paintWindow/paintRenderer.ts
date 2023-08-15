@@ -17,25 +17,22 @@ document.addEventListener('DOMContentLoaded', async function () {
   document.getElementById('redo').addEventListener('click', () => {
     paint.redo();
   });
-  // document.getElementById('reset').addEventListener('click', () => {
-  //   paint.reset();
-  // });
-  // document.getElementById('copy').addEventListener('click', () => {
-  //   paint.copy();
-  // });
-  // document.getElementById('save').addEventListener('click', () => {
-  //   paint.save();
-  // });
+  document.getElementById('reset').addEventListener('click', () => {
+    paint.reset();
+  });
+  document.getElementById('copy').addEventListener('click', () => {
+    paint.copy();
+  });
+  document.getElementById('save').addEventListener('click', () => {
+    paint.save();
+  });
 
 
   //! PAINTING
 
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d');
-  // ctx.lineJoin = 'round';
-  // ctx.lineWidth = tools.getDrawingWidth();
-  // ctx.lineCap = 'round';
-  // ctx.strokeStyle = tools.getColor();
+
   let drawing = false;
 
   var mouse = { x: 0, y: 0 };

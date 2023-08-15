@@ -1,24 +1,27 @@
 
-//
-object has beeen destroyed error jak się włączy 2 painty
+object has beeen destroyed error on multiple paint windows
 
+zoom canvas in paint app
 
-
-
-
-
-rozciągalny canavs
-
-undo/redo sie buguje czasem jak się wyjedzie myszką poza canvas
-
-/////// moze kiedyś
+undo/redo gets bugged when leaving canvas while drawing
 
 https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
 
-odczytywanie initial clipboarda naprawic
+fix initial clipboard read
 
-wykryć jaki os i dostosować keyboard shortcuty
+detect os and fix keyboard shortcuts
 
-okno do customizowania controlsów?
+customize hotkeys window
 
-ogarnac \n dla 1 entry jakoś bo .includes(\n,entry,CLIPBOARD_SPLIT)
+\n for 1 entry
+
+///////
+
+disabled copy dataurl png manually for safety purposes
+
+.\node_modules\.bin\electron-rebuild.cmd
+
+
+
+
+

@@ -1,6 +1,5 @@
 import { clipboard, globalShortcut } from 'electron';
 import { IpcMainHandler, ipc } from '../connection/IpcMainHandler';
-import * as ncp from 'copy-paste';
 import { paintWindow } from '../features/paintWindow/PaintWindow';
 import robot from 'robotjs';
 import { getContent, getFormat } from './clipboardHandler';

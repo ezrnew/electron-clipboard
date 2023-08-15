@@ -84,16 +84,12 @@ export class IpcMainHandler {
       this._paintSender = event.sender;
 
      console.log("zwrotka z input response:",arg)
-    // robot.typeString(arg)
-    // clipboard.write(arg)
+
 clipboard.writeText(arg)
 
 
-    // Split the text into individual characters
-    
-    // robot.keyToggle('command', 'down');
     robot.keyTap('v', ['control'])
-    // robot.keyToggle('command', 'up'); 
+  
 
 
 

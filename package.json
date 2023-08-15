@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "clipboard-event": "^1.6.0",
-    "copy-paste": "^1.5.3",
     "electron-positioner": "^4.1.0",
     "electron-store": "^8.1.0",
     "file-type": "^16.5.3",

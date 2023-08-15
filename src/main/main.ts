@@ -71,7 +71,7 @@ function initApp() {
   clipboardListenerHandler();
   systemTrayHandler(win);
   if (store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS)) registerGlobalShortcuts();
-  //? enable if not specified yet in config
+  //? enable if not specified in config
   else if (store.get(storeActions.ENABLE_GLOBAL_SHORTCUTS) === undefined) {
     store.set(storeActions.ENABLE_GLOBAL_SHORTCUTS, true);
     registerGlobalShortcuts();
