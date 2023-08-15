@@ -1,10 +1,9 @@
 import { BrowserWindow, dialog } from 'electron';
 
-export const showClearDataDialog = async (win: BrowserWindow) => {
+export const showClearDataDialog = (win: BrowserWindow) => {
   const options = {
-    // type: 'info',
     title: 'Delete all data',
-    message: 'All your clipboard data will be erased. Do you want to continue?',
+    message: 'All your data will be erased. Do you want to continue?',
     buttons: [' Yes ', ' Cancel '],
     noLink: true,
     defaultId: 1,

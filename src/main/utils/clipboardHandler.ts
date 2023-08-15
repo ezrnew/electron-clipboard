@@ -1,15 +1,9 @@
 import { BASE64, CLIPBOARD_DATA_PATH, CLIPBOARD_SPLIT } from '../../common/constants';
 import { ipc } from '../connection/IpcMainHandler';
-import { restartApp } from './restartApplication';
 
 const clipboardListener = require('clipboard-event');
 const { clipboard } = require('electron');
 const fs = require('fs');
-// const path = require('path');
-// const FileType = require('file-type');
-// import {fileTypeFromFile} from 'file-type';
-//TODO czy bedzie dzialac path po buildzie?
-const rootDir = process.cwd();
 
 let lastEntry = '';
 
@@ -34,13 +28,12 @@ export const clipboardListenerHandler = () => {
       })
       .catch((err) => {
         console.log(err);
-        restartApp();
+        createFileIfDoesNotExist();
       });
   });
 };
 
 export const getFormat = () => {
-  //todo validating dataurl makes it impossible to copy it manually
   if (clipboard.readText('clipboard') !== '' && !clipboard.readText('clipboard').startsWith(BASE64)) {
     return 'text';
   }
@@ -63,10 +56,7 @@ const createFileIfDoesNotExist = () => {
           console.error('Error creating file:', err);
           return;
         }
-        console.log('File created successfully.');
       });
-    } else {
-      console.log('File already exists.');
     }
   });
 };
@@ -80,12 +70,8 @@ const saveToFile = (directory: string, data: string) => {
       console.error(err);
       return;
     }
-
-    console.log('Data has been written to the file.');
   });
 };
-
-//////////////////
 
 export const getInitialClipboard = () => {
   return new Promise((resolve, reject) => {
@@ -96,6 +82,7 @@ export const getInitialClipboard = () => {
       }
 
       const dataArray = data.split(CLIPBOARD_SPLIT);
+       if(dataArray[dataArray.length-1] === '') dataArray.pop()
       resolve(dataArray);
     });
   });
@@ -103,7 +90,7 @@ export const getInitialClipboard = () => {
 
 export const clearClipboardFile = () => {
   return new Promise((resolve, reject) => {
-    fs.writeFile(CLIPBOARD_DATA_PATH, '', (err, data) => {
+    fs.writeFile(CLIPBOARD_DATA_PATH, '', (err) => {
       if (err) {
         reject(err);
         return;

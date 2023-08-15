@@ -1,59 +1,28 @@
-import { ipcRenderer } from "electron"
-import { ipcMainActions, ipcRendererActions } from "../../common/ipcActions";
-import { appendClipboardData, displayInitialClipboardData } from "../utils/displayClipboard";
-// import { setImageToCanvas } from "../features/paintWindow/paintRenderer";
-import { paint } from "../features/paintWindow/Paint";
+import { ipcRenderer } from 'electron';
+import { ipcMainActions, ipcRendererActions } from '../../common/ipcActions';
+import { paint } from '../features/paintWindow/Paint';
 
- class IpcRendererHandler {
+class IpcRendererHandler {
+  initialImage = '';
 
-     initialImage = ""
+  constructor() {
+    this.initIpcListeners();
+  }
 
-    //todo ogarnac syf
-    // setCanvasImage(){
-    //     setImageToCanvas(this.initialImage)
-    // }
+  sendWindowReady() {
+    ipcRenderer.send(ipcRendererActions.paintWindowReady);
+  }
 
-    constructor() {
-        // this.sendWindowReady()
-        this.initIpcListeners()
-    }
-
-    sendWindowReady(){
-        ipcRenderer.send(ipcRendererActions.paintWindowReady)
-    }
-
-
-
-
-
-
-    private initIpcListeners() {
-       
-
-        //!paint
-        ipcRenderer.on(ipcMainActions.paintResponse, (_event, data) => {
-            console.log(data)
-            console.log("received paint response in new ipc handler:")
-
-            if(data){
-
-                
-                paint.setInitialImage(data)
-                paint.setInitialImageToCanvas()
-            }else {
-                paint.setInitialEmptyCanvas()
-            }
-            // console.log()
-            // appendClipboardData(value)
-        })
-
-
-
-
-
-    }
-
-
+  private initIpcListeners() {
+    ipcRenderer.on(ipcMainActions.paintResponse, (_event, data: string | null) => {
+      if (data) {
+        paint.setInitialImage(data);
+        paint.setInitialImageToCanvas();
+      } else {
+        paint.setInitialEmptyCanvas();
+      }
+    });
+  }
 }
 
-export const ipcPaint = new IpcRendererHandler()
+export const ipcPaint = new IpcRendererHandler();

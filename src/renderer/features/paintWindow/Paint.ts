@@ -28,7 +28,7 @@ class Paint {
   }
 
   setImageHistory(history: []) {
-    this._editHistory = [];
+    this._editHistory = history;
   }
 
   getImageHistory() {
@@ -74,7 +74,6 @@ class Paint {
   setImageToCanvas(step: number) {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const canvasContext = canvas.getContext('2d');
-    // console.log('ustawiam zdjencie', this._editHistory[step]);
     const canvasPic = new Image();
     canvasPic.src = this._editHistory[step];
     canvasPic.onload = () => {
@@ -101,6 +100,7 @@ class Paint {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const canvasContext = canvas.getContext('2d');
 
+    //todo
     canvas.width = 500;
     canvas.height = 500;
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
@@ -117,11 +117,7 @@ class Paint {
   initializeKeyboardUtilities() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === 'c') {
-        //todo gdzies przeniesc ta funkcje
         this.copy();
-
-        // navigator.clipboard(write)
-        // Your code to execute when Ctrl + C is pressed
       }
 
       if (event.ctrlKey && event.key === 'z') {
@@ -162,7 +158,5 @@ function getImageData(dataUri) {
     };
   });
 }
-
-// initializeColors
 
 export const paint = new Paint();
