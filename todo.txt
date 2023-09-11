@@ -22,6 +22,9 @@ disabled copy dataurl png manually for safety purposes
 .\node_modules\.bin\electron-rebuild.cmd
 
 
+tailwinda dorzucic
+<script src="https://cdn.tailwindcss.com"></script>
+
 
 
 
