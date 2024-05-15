@@ -1,25 +1,28 @@
-import { BrowserWindow, Menu, Tray, app } from "electron"
+import { BrowserWindow, Menu, Tray, app } from 'electron';
 
-const rootDir = process.cwd()
+const imageDir = process.cwd() + '\\src\\assets\\clipboard-check-solid.png';
 
-const zdjencieDir = rootDir+"\\src\\assets\\pobrane.png"
+export const systemTrayHandler = (win: BrowserWindow) => {
+  const tray = new Tray(imageDir);
 
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'restore',
+      click: () => {
+        win.show();
+      },
+    },
+    {
+      label: 'quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
 
-export const systemTrayHandler = (win:BrowserWindow) =>{
-    
-    const tray = new Tray(zdjencieDir)
-
-    const contextMenu = Menu.buildFromTemplate([
-        { label: 'restore', click:()=>{win.show()}},
-        { label: 'quit', click:()=>{app.quit()}},
-
-      ])
-
-      tray.setToolTip("quick clipboard running")
-      tray.setContextMenu(contextMenu)
-      tray.addListener("click",()=>{win.show()})
-      
-
-
-    
-}
+  tray.setToolTip('clipboard running');
+  tray.setContextMenu(contextMenu);
+  tray.addListener('click', () => {
+    win.show();
+  });
+};

@@ -16,7 +16,6 @@ const store = new Store();
 export let win: BrowserWindow;
 
 const createWindow = () => {
-  const hideMenu = store.get(storeActions.HIDE_MENU) as boolean;
   const clipboardBounds = store.get(storeActions.CLIPBOARD_BOUNDS) as Rectangle;
   const bounds = clipboardBounds
     ? { width: clipboardBounds.width, height: clipboardBounds.height, x: clipboardBounds.x, y: clipboardBounds.y }
@@ -29,12 +28,12 @@ const createWindow = () => {
     y: bounds.y,
     show: !store.get(storeActions.HIDE_WINDOW_ON_START) as boolean,
     skipTaskbar: !!store.get(storeActions.HIDE_TASKBAR_ICON) as boolean,
-    autoHideMenuBar: hideMenu,
+    autoHideMenuBar: store.get(storeActions.HIDE_MENU) as boolean,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true,
+      // devTools: true,
     },
   });
 
@@ -42,7 +41,7 @@ const createWindow = () => {
 
   win.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'));
 
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 };
 
 app.whenReady().then(() => {
@@ -58,8 +57,6 @@ app.whenReady().then(() => {
   });
 
   initApp();
-
-  //
 });
 
 app.on('window-all-closed', () => {

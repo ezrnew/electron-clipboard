@@ -1,10 +1,10 @@
-import { BrowserWindow, Menu, Notification, dialog, shell } from 'electron';
+import { Menu, shell } from 'electron';
+import Store from 'electron-store';
+import { CLIPBOARD_DATA_PATH } from '../../common/constants';
+import { ipc } from '../connection/IpcMainHandler';
 import { win } from '../main';
 import { clearClipboardFile } from './clipboardHandler';
-import Store from 'electron-store';
-import { ipc } from '../connection/IpcMainHandler';
 import { registerGlobalShortcuts, unregisterGlobalShortcuts } from './keyboardShortcutsHandler';
-import { CLIPBOARD_DATA_PATH } from '../../common/constants';
 import { showClearDataDialog } from './showClearDataDialog';
 
 const store = new Store();
@@ -163,7 +163,7 @@ const template = [
   {
     label: 'Help',
     click: () => {
-      console.log('aa pomusz mi');
+      // shell.openExternal(repo)
     },
   },
 ];

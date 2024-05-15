@@ -1,5 +1,6 @@
 import { ipc } from '../connection/IpcRendererHandler';
-import { store } from '../store/store';
+
+//todo group as class
 
 let entrySize = 2;
 let lastEntry = '';
@@ -8,6 +9,13 @@ export function displayInitialClipboardData(data: string[]) {
   const clipboardList = document.getElementById('clipboard-list');
 
   clipboardList.innerHTML = '';
+
+  if(!data.length){
+    let item = document.createElement('li');
+  clipboardList.appendChild(item)
+  }
+
+
 
   data.forEach((entry) => {
     let item = document.createElement('li');
@@ -111,12 +119,9 @@ export const setEntrySize = async (size: 1 | 2 | 3) => {
   const ul = document.getElementById('clipboard-list');
 
   const liItems = ul.getElementsByTagName('li');
-  console.log('HTML COLLECTION', liItems);
-  console.log('ustawiam klase dla chlopaczkuw:', getEntrySizeClassByNumber(size));
-  console.log(liItems.length);
 
+  
   if (liItems.length === 0) {
-    console.log('nie ma uela');
     setTimeout(() => {
       setEntrySize(size);
     }, 100);
@@ -136,7 +141,8 @@ function getEntrySizeClassByNumber(size: number) {
   if (size === 3) return 'max-height-5em';
   return '';
 }
-const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+const b64toBlob = (b64Data, contentType) => {
+  const sliceSize = 512;
   const byteCharacters = atob(b64Data);
   const byteArrays = [];
 
@@ -160,17 +166,11 @@ export function getTextFromInput(index: number) {
   return (document.getElementById(`clipboard-input-${index}`) as HTMLInputElement).value;
 }
 
+export function setClipboardTextToInput(index: number) {
+  //? wait for robotjs ctrl+c; navigator.clipboard doesnt always work
+  setTimeout(() => {
+    (document.getElementById(`clipboard-input-${index}`) as HTMLInputElement).value = lastEntry;
+  }, 50);
 
-//todo wywala sie czasami document is not focused spprawdzic czy bedzie dzialac potym focus()
-export async function setClipboardTextToInput(index: number) {
-  console.log('dostaje index:', index);
-  try{
-    const clipboardText = await navigator.clipboard.readText();
-    console.log('dostaje clibpardoadasdastext:', clipboardText);
-
-    (document.getElementById(`clipboard-input-${index}`) as HTMLInputElement).value = clipboardText;
-  }catch(e){
-    console.log("wyjebawszy sie",e)
-    document.getElementById("main-container").focus()
-  }
+  console.log('last', lastEntry);
 }

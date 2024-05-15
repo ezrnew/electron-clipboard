@@ -7,10 +7,7 @@ const TOOLBAR_HEIGHT = 60;
 document.addEventListener('DOMContentLoaded', async function () {
   ipcPaint.sendWindowReady();
 
-  // const undo = document.getElementById('undo');
-  // undo.addEventListener('click', () => {
-  //   paint.undo();
-  // });
+  //todo styling
   document.getElementById('undo').addEventListener('click', () => {
     paint.undo();
   });
@@ -27,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     paint.save();
   });
 
-
   //! PAINTING
 
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -35,21 +31,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   let drawing = false;
 
-  var mouse = { x: 0, y: 0 };
-  var previous = { x: 0, y: 0 };
+  let mouse = { x: 0, y: 0 };
+  let previous = { x: 0, y: 0 };
 
   canvas.addEventListener('mousedown', function (e) {
     drawing = true;
     previous = { x: mouse.x, y: mouse.y };
     mouse = oMousePos(canvas, e);
-    // points = [];
-    // points.push({x:mouse.x,y:mouse.y})
   });
 
   canvas.addEventListener(
     'mousemove',
-    function (e) {
-      // ctx.lineWidth = tools.getDrawingWidth()
+    (e) => {
       ctx.lineCap = 'round';
       ctx.strokeStyle = tools.getColor();
       ctx.lineWidth = tools.getDrawingWidth();
@@ -57,10 +50,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (drawing) {
         previous = { x: mouse.x, y: mouse.y };
         mouse = oMousePos(canvas, e);
-        // saving the points in the points array
 
-        // points.push({x:mouse.x,y:mouse.y})
-        // drawing a line from the previous point to the current point
         ctx.beginPath();
         ctx.moveTo(previous.x, previous.y);
         ctx.lineTo(mouse.x, mouse.y);
@@ -83,9 +73,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   canvas.addEventListener(
     'mouseleave',
     function () {
-      if(drawing)paint.pushImage();
+      if (drawing) paint.pushImage();
       drawing = false;
-      
     },
     false
   );
@@ -93,7 +82,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   function oMousePos(canvas, evt) {
     var ClientRect = canvas.getBoundingClientRect();
     return {
-      //objeto
       x: Math.round(evt.clientX - ClientRect.left),
       y: Math.round(evt.clientY - ClientRect.top),
     };

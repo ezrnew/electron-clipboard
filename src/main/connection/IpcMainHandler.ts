@@ -4,7 +4,7 @@ import { getInitialClipboard } from '../utils/clipboardHandler';
 import { paintWindow } from '../features/paintWindow/PaintWindow';
 import Store from 'electron-store';
 import { storeActions } from '../utils/menuBarHandler';
-import robot from "robotjs"
+import robot from 'robotjs';
 
 const store = new Store();
 
@@ -22,17 +22,16 @@ export class IpcMainHandler {
   sendInitialClipboard() {
     //todo
 
-    getInitialClipboard().then((dataArray) => {
-      this._window.webContents.send(ipcMainActions.initialClipboard, dataArray);
-    }).catch(e => console.log("Unable to get clipboard data:",e))
+    getInitialClipboard()
+      .then((data) => {
+        this._window.webContents.send(ipcMainActions.initialClipboard, data);
+        console.log(data)
+      })
+      .catch((e) => console.log('Unable to get clipboard data:', e));
   }
 
   sendClipboardData(data: string) {
     this._window.webContents.send(ipcMainActions.clipboard, data);
-  }
-
-  sendShortcutData(data: shortcutData) {
-    this._window.webContents.send(ipcMainActions.shortcutData, data);
   }
 
   sendInputsQuantity(quantity: number) {
@@ -45,21 +44,15 @@ export class IpcMainHandler {
 
   sendInputPasteRequest(index: number) {
     this._window.webContents.send(ipcMainActions.inputPasteRequest, index);
-  
   }
 
-  sendInputCopyRequest(index:number) {
-    this._window.webContents.send(ipcMainActions.inputCopyRequest,index);
-  
+  sendInputCopyRequest(index: number) {
+    this._window.webContents.send(ipcMainActions.inputCopyRequest, index);
   }
-
-  // PAINT
 
   sendPaintResponse(image64: string) {
     this._paintSender.send(ipcMainActions.paintResponse, image64);
   }
-
-  //!################################# INIT LISTENERS #######################################
 
   private initIpcListeners() {
     ipcMain.on(ipcRendererActions.windowReady, () => {
@@ -71,39 +64,23 @@ export class IpcMainHandler {
       if (clipboardEntrySize !== undefined) ipc.sendClipboardEntrySize(clipboardEntrySize);
     });
 
-    ipcMain.on(ipcRendererActions.paintRequest, (event, arg) => {
-
-      console.log('received paint request with data: ', arg.substring(1, 100));
-
-      //todo arg validation
-      paintWindow.open(arg);
+    ipcMain.on(ipcRendererActions.paintRequest, (event, data: string) => {
+      paintWindow.open(data);
     });
 
-
-    ipcMain.on(ipcRendererActions.inputPasteResponse, (event, arg) => {
+    ipcMain.on(ipcRendererActions.inputPasteResponse, (event, data: string) => {
       this._paintSender = event.sender;
 
-     console.log("zwrotka z input response:",arg)
+      clipboard.writeText(data);
 
-clipboard.writeText(arg)
-
-
-    robot.keyTap('v', ['control'])
-  
-
-
-
-
+      robot.keyTap('v', ['control']);
     });
 
-
-
-    ipcMain.on(ipcRendererActions.paintWindowReady, (event, arg) => {
+    ipcMain.on(ipcRendererActions.paintWindowReady, (event) => {
       this._paintSender = event.sender;
 
       this.sendPaintResponse(paintWindow.getImage());
     });
-
   }
 }
 

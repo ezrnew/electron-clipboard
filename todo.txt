@@ -3,11 +3,15 @@ object has beeen destroyed error on multiple paint windows
 
 zoom canvas in paint app
 
-undo/redo gets bugged when leaving canvas while drawing
+validate ipc data with zod
+
+undo/redo gets bugged when leaving canvas and returning with lmb held
 
 https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
 
 fix initial clipboard read
+
+update icon
 
 detect os and fix keyboard shortcuts
 
@@ -15,16 +19,13 @@ customize hotkeys window
 
 \n for 1 entry
 
+windowStickToBorder
+
 ///////
 
-disabled copy dataurl png manually for safety purposes
+disabled copy dataurl png manually for safety
 
 .\node_modules\.bin\electron-rebuild.cmd
-
-
-tailwinda dorzucic
-<script src="https://cdn.tailwindcss.com"></script>
-
 
 
 

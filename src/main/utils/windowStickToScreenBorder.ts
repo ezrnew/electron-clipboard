@@ -1,18 +1,15 @@
 import { BrowserWindow,screen } from "electron";
-import * as Positioner from 'electron-positioner'
-
-//kurwa nie dziala odciaganie w poziomie trzeba pomyslec cos
-//if(chujowa rozdzielczosc ekranu) return;)
 
 
+
+//todo bugged af on smaller resolution screens
 export function windowStickToBorderHandler(window:BrowserWindow){
-    //TODO potestować na monitorze innym co tu się odkurwiaz tym odstępem z 2 stron w poziomie
 
 
 
 
 
-    const positioner = new Positioner(window)
+    // const positioner = new Positioner(window)
     const threshold = 40
 
 
