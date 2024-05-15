@@ -27,10 +27,5 @@ disabled copy dataurl png manually for safety
 
 .\node_modules\.bin\electron-rebuild.cmd
 
-export const restartApp = () =>{
-    app.relaunch()
-    app.exit()
-}
-
 
 
