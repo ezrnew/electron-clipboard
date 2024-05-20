@@ -1,5 +1,5 @@
 # Electron clipboard
-Electron clipboard is a clipboard manager  written (surprisingly) in  electron. Application allows storing and accesing previous clipboard values (both text and images) with as simple GUI as possible. All the data is stored locally in text file, while user settings are saved in the system diretory.
+Electron clipboard is a clipboard manager  written (surprisingly) in  electron. Application allows storing and accesing previous clipboard values (both text and images) with as simple GUI as possible. All the data is stored locally in text file, while user settings are saved in the system directory.
 
 Besides storing past clipboard data electron-clipboard also provides utility tools like screenshot editing:
 
