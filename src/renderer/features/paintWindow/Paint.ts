@@ -1,3 +1,4 @@
+import { ipc } from '../../connection/IpcRendererHandler';
 import { writeClipboardImage } from '../../utils/displayClipboard';
 
 class Paint {
@@ -60,8 +61,10 @@ class Paint {
     this.setImageHistory([]);
     this._step = 0;
   }
-  copy() {
-    writeClipboardImage(this._editHistory[this._step]);
+  async copy() {
+    await writeClipboardImage(this._editHistory[this._step]);
+    ipc.sendClosePaintWindow()
+
   }
   save() {
     let link = document.createElement('a');

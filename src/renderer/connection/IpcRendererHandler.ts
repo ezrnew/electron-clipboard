@@ -27,6 +27,11 @@ class IpcRendererHandler {
     ipcRenderer.send(ipcRendererActions.inputPasteResponse, data);
   }
 
+    sendClosePaintWindow() {
+    ipcRenderer.send(ipcRendererActions.closePaintWindow);
+  }
+
+
   private initIpcListeners() {
     ipcRenderer.on(ipcMainActions.initialClipboard, (_event, value) => {
       displayInitialClipboardData(value);

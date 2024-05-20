@@ -11,7 +11,7 @@
   "build": {
     "appId": "com.example.myapp",
     "directories": {
-      "output": "huj1"
+      "output": "output"
     },
     "mac": {
       "target": "dmg"

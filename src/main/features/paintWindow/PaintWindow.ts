@@ -24,7 +24,6 @@ class PaintWindow {
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
-        // devTools: true,
       },
     });
 

@@ -102,13 +102,13 @@ function isText(data: string) {
   return !data.startsWith('data:image/png;base64,');
 }
 
-export function writeClipboardImage(base64Image: string) {
+export async function writeClipboardImage(base64Image: string) {
   const base64 = base64Image.replace('data:image/png;base64,', '');
 
   const blob = b64toBlob(base64, 'image/png');
 
   try {
-    navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
   } catch (error) {
     console.error(error);
   }

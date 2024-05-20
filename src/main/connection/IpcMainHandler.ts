@@ -76,11 +76,22 @@ export class IpcMainHandler {
       robot.keyTap('v', ['control']);
     });
 
+
+    
+
     ipcMain.on(ipcRendererActions.paintWindowReady, (event) => {
       this._paintSender = event.sender;
 
       this.sendPaintResponse(paintWindow.getImage());
     });
+
+
+    ipcMain.on(ipcRendererActions.closePaintWindow, () => {
+      if (paintWindow) {
+        paintWindow.getWindow().close();
+      }
+    });
+
   }
 }
 

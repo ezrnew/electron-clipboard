@@ -5,6 +5,7 @@ export const ipcRendererActions = {
   inputPasteResponse: 'input-paste-response',
 
   paintWindowReady: 'paint-ready',
+  closePaintWindow: 'close-paint-window',
 } as const;
 
 export const ipcMainActions = {
