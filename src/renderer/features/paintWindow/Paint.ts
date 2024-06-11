@@ -1,5 +1,6 @@
 import { ipc } from '../../connection/IpcRendererHandler';
 import { writeClipboardImage } from '../../utils/displayClipboard';
+import { tools } from './paintTools';
 
 class Paint {
   private _initialImage: string;
@@ -73,6 +74,17 @@ class Paint {
     link.click();
   }
 
+  pickColor() {
+    tools.setIsPickingColor(true)
+
+  }
+
+  closeWindow() {
+    ipc.sendClosePaintWindow()
+
+  }
+
+
   //todo
   setImageToCanvas(step: number) {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -138,6 +150,13 @@ class Paint {
       if (event.ctrlKey && event.key === 's') {
         this.save();
       }
+      if (event.altKey && event.key === 'a') {
+        this.pickColor();
+      }
+      if (event.ctrlKey && event.key === 'w') {
+        this.closeWindow();
+      }
+
     };
 
     window.addEventListener('keydown', handleKeyDown);

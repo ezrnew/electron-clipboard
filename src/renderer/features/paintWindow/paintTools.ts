@@ -1,13 +1,24 @@
 class PaintTools {
   private _color: string;
   private _drawingWidth: number;
-
+  private _isPickingColor: boolean
   constructor() {
     this._color = '#ff0000';
     this._drawingWidth = 2;
+    this._isPickingColor = false;
 
     this.initializeToolsListeners();
   }
+
+  getIsPickingColor() {
+    return this._isPickingColor;
+  }
+  setIsPickingColor(isPicking: boolean) {
+    this._isPickingColor = isPicking
+    if (isPicking) document.body.style.cursor = "crosshair"
+    else document.body.style.cursor = "default"
+  }
+
 
   getColor() {
     return this._color;
@@ -101,6 +112,13 @@ class PaintTools {
     paintWidth3.addEventListener('click', () => {
       this._drawingWidth = 10;
     });
+
+    const colorpicker = document.getElementById('colorpicker');
+
+    colorpicker.addEventListener('click', () => {
+      this.setIsPickingColor(!this._isPickingColor)
+    })
+
   }
 }
 
